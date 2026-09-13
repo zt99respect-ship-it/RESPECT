@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ساحة بثوث ريسبكت</title>
+<title>ساحة ريسبكت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
     --purple:#8b5cf6;--purple-dark:#6d28d9;--purple-light:#a78bfa;
@@ -11,9 +14,9 @@
     --bg:#0a0414;--glass:rgba(139,92,246,.07);--glass-border:rgba(167,139,250,.18);
     --text:#f3e8ff;--danger:#ef4444;--success:#22c55e;
   }
-  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo','Segoe UI',Tahoma,sans-serif;}
   html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;}
+  body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;font-weight:700;}
 
   body::before{
     content:'';position:fixed;inset:0;
@@ -45,16 +48,17 @@
   nav.hidden{transform:translateY(-100%);opacity:0;pointer-events:none;}
   nav .logo{
     display:flex;align-items:center;gap:10px;
-    font-weight:800;font-size:1.1rem;
+    font-weight:900;font-size:1.15rem;
     background:linear-gradient(90deg,var(--purple),var(--purple-light));
     -webkit-background-clip:text;background-clip:text;color:transparent;
   }
-  nav .logo svg{width:28px;height:28px;}
+  nav .logo svg{width:28px;height:28px;color:var(--purple);}
   nav .links{display:flex;gap:8px;}
   nav button{
     display:flex;align-items:center;gap:6px;
     background:transparent;border:1px solid var(--glass-border);color:var(--text);
     padding:8px 14px;border-radius:10px;cursor:pointer;font-size:.85rem;
+    font-family:'Cairo',sans-serif;font-weight:700;
     transition:.25s;
   }
   nav button svg{width:16px;height:16px;}
@@ -66,19 +70,20 @@
   header{text-align:center;padding:50px 20px 20px;animation:fadeDown .8s ease;}
   @keyframes fadeDown{from{opacity:0;transform:translateY(-30px);}to{opacity:1;transform:translateY(0);}}
   header h1{
-    font-size:3rem;font-weight:900;
+    font-size:3.2rem;font-weight:900;
     background:linear-gradient(90deg,var(--purple),var(--purple-light),var(--purple));
     background-size:200% auto;
     -webkit-background-clip:text;background-clip:text;color:transparent;
     animation:shine 4s linear infinite;
     text-shadow:0 0 40px rgba(139,92,246,.35);
     letter-spacing:-1px;
+    line-height:1.3;
   }
   @keyframes shine{to{background-position:200% center;}}
   header p{
     margin-top:10px;letter-spacing:10px;
-    color:var(--purple-light);font-weight:700;
-    font-size:1rem;
+    color:var(--purple-light);font-weight:900;
+    font-size:1.05rem;
     animation:pulseText 2.5s ease-in-out infinite;
   }
   @keyframes pulseText{0%,100%{opacity:.5;}50%{opacity:1;}}
@@ -102,8 +107,9 @@
     border:1px solid var(--glass-border);
     background:var(--glass);backdrop-filter:blur(12px);
     color:var(--text);font-size:1rem;outline:none;transition:.3s;
+    font-family:'Cairo',sans-serif;font-weight:700;
   }
-  .search-box input::placeholder{color:rgba(243,232,255,.4);}
+  .search-box input::placeholder{color:rgba(243,232,255,.45);font-weight:600;}
   .search-box input:focus{
     border-color:var(--purple);
     box-shadow:0 0 25px var(--purple-glow);
@@ -113,8 +119,9 @@
     display:flex;align-items:center;gap:8px;
     padding:15px 26px;border:none;border-radius:14px;
     background:linear-gradient(135deg,var(--purple),var(--purple-dark));
-    color:#fff;font-weight:700;cursor:pointer;transition:.3s;
+    color:#fff;font-weight:800;cursor:pointer;transition:.3s;
     position:relative;overflow:hidden;
+    font-family:'Cairo',sans-serif;font-size:.95rem;
   }
   .search-box button svg{width:18px;height:18px;}
   .search-box button::before{
@@ -132,8 +139,8 @@
 
   .section{max-width:1200px;margin:30px auto;padding:0 20px;}
   .section h2{
-    font-size:1.2rem;margin-bottom:16px;
-    color:var(--text);font-weight:800;
+    font-size:1.25rem;margin-bottom:16px;
+    color:var(--text);font-weight:900;
     display:flex;align-items:center;gap:10px;
   }
   .section h2 svg{
@@ -179,9 +186,9 @@
     border-radius:50%;animation:liveRing 1.8s ease-out infinite;pointer-events:none;
   }
   @keyframes liveRing{0%{transform:scale(1);opacity:1;}100%{transform:scale(1.25);opacity:0;}}
-  .channel-card .name{font-size:.9rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .channel-card .name{font-size:.92rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .channel-card .viewers{
-    font-size:.78rem;color:var(--purple-light);margin-top:6px;
+    font-size:.8rem;color:var(--purple-light);margin-top:6px;font-weight:700;
     display:flex;align-items:center;justify-content:center;gap:4px;
   }
   .channel-card .viewers svg{width:14px;height:14px;}
@@ -191,6 +198,7 @@
     background:var(--glass);border:1px solid var(--glass-border);
     color:var(--text);padding:10px 16px;border-radius:12px;
     cursor:pointer;font-size:.88rem;transition:.3s;
+    font-family:'Cairo',sans-serif;font-weight:700;
   }
   .fav-btn:hover{
     border-color:var(--purple);background:rgba(139,92,246,.12);
@@ -230,16 +238,17 @@
   .stats-bar{
     display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;padding:14px 16px;
     background:var(--glass);backdrop-filter:blur(12px);
-    border:1px solid var(--glass-border);border-radius:14px;font-size:.88rem;
+    border:1px solid var(--glass-border);border-radius:14px;font-size:.9rem;
     animation:fadeUp .5s ease;
   }
   .stats-bar .stat{
     display:flex;align-items:center;gap:8px;padding:6px 12px;
     background:rgba(139,92,246,.1);border-radius:10px;transition:.25s;
+    font-weight:700;
   }
   .stats-bar .stat:hover{background:rgba(139,92,246,.2);}
   .stats-bar .stat svg{width:16px;height:16px;color:var(--purple-light);}
-  .stats-bar .stat b{color:var(--text);font-weight:700;}
+  .stats-bar .stat b{color:var(--text);font-weight:800;}
 
   .controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center;}
   .controls select,.controls button{
@@ -248,7 +257,8 @@
     border:1px solid var(--glass-border);
     background:var(--glass);backdrop-filter:blur(12px);
     color:var(--text);cursor:pointer;transition:.3s;
-    font-size:.9rem;font-weight:600;
+    font-size:.9rem;font-weight:800;
+    font-family:'Cairo',sans-serif;
   }
   .controls svg{width:16px;height:16px;}
   .controls button:hover,.controls select:hover{
@@ -262,20 +272,21 @@
   .live-badge{
     display:inline-flex;align-items:center;gap:6px;padding:6px 14px;
     background:linear-gradient(135deg,var(--danger),#b91c1c);
-    color:#fff;border-radius:20px;font-size:.8rem;font-weight:800;
+    color:#fff;border-radius:20px;font-size:.82rem;font-weight:900;
     letter-spacing:.5px;animation:livePulse 1.6s infinite;
   }
   .live-badge::before{content:'';width:8px;height:8px;background:#fff;border-radius:50%;}
   @keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.6);}50%{box-shadow:0 0 0 8px rgba(239,68,68,0);}}
 
   footer{
-    text-align:center;padding:30px;color:rgba(167,139,250,.5);
-    font-size:.85rem;border-top:1px solid var(--glass-border);margin-top:40px;
+    text-align:center;padding:30px;color:rgba(167,139,250,.6);
+    font-size:.88rem;font-weight:700;
+    border-top:1px solid var(--glass-border);margin-top:40px;
   }
 
   @media(max-width:600px){
-    header h1{font-size:2rem;}
-    header p{letter-spacing:6px;font-size:.85rem;}
+    header h1{font-size:2.1rem;}
+    header p{letter-spacing:6px;font-size:.88rem;}
     .search-box{flex-direction:column;}
     .search-box button{width:100%;justify-content:center;}
     nav{padding:10px 14px;}
@@ -292,7 +303,8 @@
     color:#fff;padding:12px 18px;border-radius:12px;
     box-shadow:0 8px 28px rgba(0,0,0,.5);
     animation:toastIn .4s ease,toastOut .4s ease 4.6s forwards;
-    font-size:.9rem;font-weight:600;max-width:300px;
+    font-size:.9rem;font-weight:800;max-width:300px;
+    font-family:'Cairo',sans-serif;
   }
   .toast svg{width:18px;height:18px;flex-shrink:0;}
   @keyframes toastIn{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
@@ -305,12 +317,13 @@
     display:flex;align-items:center;justify-content:space-between;
     gap:12px;flex-wrap:wrap;animation:fadeUp .5s ease;
   }
-  .rec-result .msg{display:flex;align-items:center;gap:8px;font-weight:700;}
+  .rec-result .msg{display:flex;align-items:center;gap:8px;font-weight:800;}
   .rec-result .msg svg{width:20px;height:20px;color:var(--success);}
   .rec-result a{
     display:flex;align-items:center;gap:6px;
     color:#fff;background:var(--purple);padding:10px 18px;border-radius:10px;
-    text-decoration:none;font-size:.9rem;font-weight:700;transition:.25s;
+    text-decoration:none;font-size:.9rem;font-weight:800;transition:.25s;
+    font-family:'Cairo',sans-serif;
   }
   .rec-result a:hover{background:var(--purple-dark);transform:translateY(-2px);box-shadow:0 6px 18px var(--purple-glow);}
   .rec-result a svg{width:16px;height:16px;}
@@ -324,7 +337,7 @@
       <polygon points="23 7 16 12 23 17 23 7"></polygon>
       <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
     </svg>
-    ساحة بثوث امنه
+    ساحة ريسبكت
   </div>
   <div class="links">
     <button onclick="go('liveSection')">
@@ -350,7 +363,7 @@
 </nav>
 
 <header>
-  <h1>ساحة بثوث امنه</h1>
+  <h1>ساحة ريسبكت</h1>
   <p>RESPECT</p>
   <div class="divider"></div>
 </header>
@@ -373,7 +386,7 @@
     قنوات مباشرة الآن
   </h2>
   <div class="scroll-row" id="liveRow">
-    <div style="color:var(--purple-light);font-size:.85rem;">جاري التحميل...</div>
+    <div style="color:var(--purple-light);font-size:.88rem;">جاري التحميل...</div>
   </div>
 </div>
 
@@ -385,7 +398,7 @@
     المفضلة
   </h2>
   <div class="scroll-row" id="favRow">
-    <div style="color:var(--purple-light);font-size:.85rem;">لا يوجد قنوات مفضلة بعد</div>
+    <div style="color:var(--purple-light);font-size:.88rem;">لا يوجد قنوات مفضلة بعد</div>
   </div>
 </div>
 
@@ -395,8 +408,8 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="5 3 19 12 5 21 5 3"/>
       </svg>
-      <p style="font-size:1.05rem;font-weight:600;">اكتب اسم قناة واضغط "شاهد البث"</p>
-      <p style="font-size:.82rem;opacity:.6;">مثال: klash</p>
+      <p style="font-size:1.1rem;font-weight:800;">اكتب اسم قناة واضغط "شاهد البث"</p>
+      <p style="font-size:.85rem;opacity:.6;font-weight:600;">مثال: klash</p>
     </div>
     <video id="player" controls playsinline style="display:none"></video>
   </div>
@@ -459,12 +472,16 @@
   <div id="recResultWrap"></div>
 </div>
 
-<footer>© 2025 ساحة بثوث ريسبكت — جميع الحقوق محفوظة</footer>
+<footer>© 2025 ساحة ريسبكت — جميع الحقوق محفوظة</footer>
 <div class="toast-area" id="toastArea"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
-/* ============ بدون بروكسي — اتصال مباشر ============ */
+/* ============ إعدادات ============ */
+const PROXY = 'https://saha-proxy.zt-99-respect.workers.dev';
+function proxied(path){ return `${PROXY}?path=${encodeURIComponent(path)}`; }
+function streamProxy(u){ return `${PROXY}?url=${encodeURIComponent(u)}`; }
+
 const FEATURED = [
   'DRB7H','S5B','PEERLESS','HOOK','FHLWY','F1AISAL','ID7O',
   'Musab','Abu8aly','Rayan','Imonky_d','Okb','wolf','AnwarBMA',
@@ -486,7 +503,7 @@ function toast(msg, type){
 }
 
 /* ============ Favorites ============ */
-const FAV_KEY = 'saha_favorites_v2';
+const FAV_KEY = 'saha_respect_favs';
 const getFavs = ()=>{ try{ return JSON.parse(localStorage.getItem(FAV_KEY)) || []; }catch{ return []; } };
 const setFavs = (a)=>{ localStorage.setItem(FAV_KEY, JSON.stringify(a)); renderFavs(); };
 
@@ -516,7 +533,7 @@ function renderFavs(){
   const favs = getFavs();
   row.innerHTML='';
   if(favs.length===0){
-    row.innerHTML='<div style="color:var(--purple-light);font-size:.85rem;">لا يوجد قنوات مفضلة بعد</div>';
+    row.innerHTML='<div style="color:var(--purple-light);font-size:.88rem;">لا يوجد قنوات مفضلة بعد</div>';
     return;
   }
   favs.forEach(ch=>{
@@ -536,14 +553,14 @@ function renderFavs(){
 }
 renderFavs();
 
-/* ============ Live Channels (مباشر بدون بروكسي) ============ */
+/* ============ Live Channels ============ */
 async function loadLiveChannels(){
   const row = document.getElementById('liveRow');
-  row.innerHTML = '<div style="color:var(--purple-light);font-size:.85rem;">جاري التحميل...</div>';
+  row.innerHTML = '<div style="color:var(--purple-light);font-size:.88rem;">جاري التحميل...</div>';
 
   const results = await Promise.all(FEATURED.map(async ch => {
     try{
-      const res = await fetch(`https://kick.com/api/v2/channels/${ch.toLowerCase()}`);
+      const res = await fetch(proxied(`/api/v2/channels/${ch.toLowerCase()}`));
       if(!res.ok) return null;
       const data = await res.json();
       const isLive = !!(data.playback_url || data.livestream);
@@ -559,7 +576,7 @@ async function loadLiveChannels(){
   const live = results.filter(Boolean);
   row.innerHTML='';
   if(live.length===0){
-    row.innerHTML='<div style="font-size:.85rem;color:var(--purple-light);">تعذر جلب القنوات (Kick يحجب CORS من المتصفح — قد تحتاج VPN)</div>';
+    row.innerHTML='<div style="font-size:.88rem;color:var(--purple-light);">لا يوجد بث مباشر حالياً</div>';
     return;
   }
 
@@ -598,8 +615,8 @@ let clipRecorder = null;
 let isRecording = false;
 
 async function fetchChannelData(ch){
-  const res = await fetch(`https://kick.com/api/v2/channels/${ch}`);
-  if(!res.ok) throw new Error('القناة غير موجودة أو محجوبة');
+  const res = await fetch(proxied(`/api/v2/channels/${ch}`));
+  if(!res.ok) throw new Error('القناة غير موجودة');
   return await res.json();
 }
 
@@ -624,7 +641,7 @@ async function loadStream(){
     const pic = data.user?.profile_pic || '';
     const viewers = data.viewers_count ?? data.livestream?.viewer_count ?? 0;
     const category = data.recent_categories?.[0]?.name || '-';
-    const m3u8 = data.playback_url || data.livestream?.playback_url;
+    let m3u8 = data.playback_url || data.livestream?.playback_url;
 
     document.getElementById('statChannel').textContent = channel;
     document.getElementById('statViewers').textContent = viewers.toLocaleString();
@@ -636,12 +653,15 @@ async function loadStream(){
     if(!m3u8){
       placeholder.innerHTML = `
         <img src="${pic}" style="width:120px;height:120px;border-radius:50%;border:3px solid var(--purple);object-fit:cover;background:#2a1a4a;box-shadow:0 0 30px var(--purple-glow);" onerror="this.style.display='none'">
-        <p style="font-size:1.3rem;font-weight:800;">${channel}</p>
-        <p style="color:var(--danger);font-weight:700;">غير مباشر حالياً</p>
-        ${category!=='-' ? '<p style="font-size:.85rem;opacity:.7;">الفئة: '+category+'</p>' : ''}
+        <p style="font-size:1.4rem;font-weight:900;">${channel}</p>
+        <p style="color:var(--danger);font-weight:800;">غير مباشر حالياً</p>
+        ${category!=='-' ? '<p style="font-size:.88rem;opacity:.7;">الفئة: '+category+'</p>' : ''}
       `;
       return;
     }
+
+    // تمرير البث عبر Worker
+    m3u8 = streamProxy(m3u8);
 
     if(hlsInstance){ hlsInstance.destroy(); hlsInstance=null; }
     if(clipRecorder){ try{ clipRecorder.stop(); }catch(e){} clipRecorder=null; }
@@ -659,7 +679,7 @@ async function loadStream(){
       hlsInstance.on(Hls.Events.ERROR, (e,d)=>{
         if(d.fatal){
           placeholder.style.display='flex';
-          placeholder.innerHTML='<p>⚠ فشل تحميل البث — قد يحتاج VPN</p>';
+          placeholder.innerHTML='<p>⚠ فشل تحميل البث</p>';
           player.style.display='none';
         }
       });
@@ -678,8 +698,7 @@ async function loadStream(){
     placeholder.style.display='flex';
     player.style.display='none';
     liveBadge.style.display='none';
-    placeholder.innerHTML = `<p>❌ ${err.message}</p>
-      <p style="font-size:.8rem;opacity:.7;">Kick يحجب CORS — قد تحتاج VPN على جهازك.</p>`;
+    placeholder.innerHTML = `<p>❌ ${err.message}</p>`;
   }
 }
 
@@ -865,7 +884,7 @@ async function checkFavsLive(){
   const status = JSON.parse(sessionStorage.getItem('fav_live_status') || '{}');
   for(const ch of favs){
     try{
-      const res = await fetch(`https://kick.com/api/v2/channels/${ch}`);
+      const res = await fetch(proxied(`/api/v2/channels/${ch}`));
       if(!res.ok) continue;
       const data = await res.json();
       const isLive = !!(data.playback_url || data.livestream);

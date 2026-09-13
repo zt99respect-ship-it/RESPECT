@@ -8,52 +8,91 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --purple:#8b5cf6;--purple-dark:#6d28d9;--purple-light:#a78bfa;
-    --purple-glow:rgba(139,92,246,.55);
-    --bg:#0a0414;--glass:rgba(139,92,246,.07);--glass-border:rgba(167,139,250,.18);
-    --text:#f3e8ff;--danger:#ef4444;--success:#22c55e;
+  :root[data-theme="purple"]{
+    --main:#8b5cf6;--main-dark:#6d28d9;--main-light:#a78bfa;
+    --main-glow:rgba(139,92,246,.55);
+    --bg:#0a0414;--bg-2:#150a26;
+    --glass:rgba(139,92,246,.07);--glass-border:rgba(167,139,250,.18);
+    --text:#f3e8ff;
   }
+  :root[data-theme="blue"]{
+    --main:#3b82f6;--main-dark:#1e40af;--main-light:#60a5fa;
+    --main-glow:rgba(59,130,246,.55);
+    --bg:#040a14;--bg-2:#0a1530;
+    --glass:rgba(59,130,246,.07);--glass-border:rgba(96,165,250,.18);
+    --text:#e0f2fe;
+  }
+  :root[data-theme="pink"]{
+    --main:#ec4899;--main-dark:#be185d;--main-light:#f472b6;
+    --main-glow:rgba(236,72,153,.55);
+    --bg:#140610;--bg-2:#260a20;
+    --glass:rgba(236,72,153,.07);--glass-border:rgba(244,114,182,.18);
+    --text:#fce7f3;
+  }
+  :root[data-theme="green"]{
+    --main:#10b981;--main-dark:#047857;--main-light:#34d399;
+    --main-glow:rgba(16,185,129,.55);
+    --bg:#04140d;--bg-2:#0a2618;
+    --glass:rgba(16,185,129,.07);--glass-border:rgba(52,211,153,.18);
+    --text:#d1fae5;
+  }
+  :root{
+    --danger:#ef4444;--success:#22c55e;
+    --purple:var(--main);--purple-dark:var(--main-dark);--purple-light:var(--main-light);
+    --purple-glow:var(--main-glow);
+  }
+
   *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo','Segoe UI',Tahoma,sans-serif;}
   html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;font-weight:700;}
+  body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;font-weight:700;transition:background .4s,color .4s;}
 
   body::before{
     content:'';position:fixed;inset:0;
     background:
-      radial-gradient(circle at 20% 20%, rgba(139,92,246,.18), transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(167,139,250,.14), transparent 50%);
+      radial-gradient(circle at 20% 20%, var(--main-glow), transparent 50%),
+      radial-gradient(circle at 80% 80%, var(--main-glow), transparent 50%);
+    opacity:.35;
     animation:bgMove 18s ease-in-out infinite alternate;
     z-index:-2;pointer-events:none;
   }
   body::after{
     content:'';position:fixed;inset:0;
     background-image:
-      linear-gradient(rgba(139,92,246,.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139,92,246,.03) 1px, transparent 1px);
+      linear-gradient(var(--glass-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
     background-size:40px 40px;
+    opacity:.3;
     z-index:-1;pointer-events:none;
   }
   @keyframes bgMove{0%{transform:scale(1) rotate(0);}100%{transform:scale(1.15) rotate(4deg);}}
+
+  body.light-mode{
+    --bg:#f8f5ff;
+    --text:#1a0a30;
+    --glass:rgba(139,92,246,.1);
+    --glass-border:rgba(139,92,246,.25);
+  }
+  body.light-mode::after{opacity:.15;}
 
   nav{
     position:sticky;top:0;z-index:100;
     display:flex;align-items:center;justify-content:space-between;
     padding:14px 24px;
-    background:rgba(10,4,20,.8);
+    background:rgba(10,4,20,.85);
     backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
     border-bottom:1px solid var(--glass-border);
-    transition:transform .35s,opacity .35s;
+    transition:transform .35s,opacity .35s,background .4s;
   }
+  body.light-mode nav{background:rgba(248,245,255,.85);}
   nav.hidden{transform:translateY(-100%);opacity:0;pointer-events:none;}
   nav .logo{
     display:flex;align-items:center;gap:10px;
     font-weight:900;font-size:1.15rem;
-    background:linear-gradient(90deg,var(--purple),var(--purple-light));
+    background:linear-gradient(90deg,var(--main),var(--main-light));
     -webkit-background-clip:text;background-clip:text;color:transparent;
   }
-  nav .logo svg{width:28px;height:28px;color:var(--purple);}
-  nav .links{display:flex;gap:8px;}
+  nav .logo svg{width:28px;height:28px;color:var(--main);}
+  nav .links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
   nav button{
     display:flex;align-items:center;gap:6px;
     background:transparent;border:1px solid var(--glass-border);color:var(--text);
@@ -63,207 +102,284 @@
   }
   nav button svg{width:16px;height:16px;}
   nav button:hover{
-    background:var(--glass);border-color:var(--purple);
-    box-shadow:0 0 15px var(--purple-glow);transform:translateY(-2px);
+    background:var(--glass);border-color:var(--main);
+    box-shadow:0 0 15px var(--main-glow);transform:translateY(-2px);
+  }
+  .nav-icon-btn{
+    width:38px;height:38px;padding:0!important;
+    justify-content:center;border-radius:50%!important;
   }
 
-  header{text-align:center;padding:50px 20px 20px;animation:fadeDown .8s ease;}
+  header{text-align:center;padding:40px 20px 15px;animation:fadeDown .8s ease;}
   @keyframes fadeDown{from{opacity:0;transform:translateY(-30px);}to{opacity:1;transform:translateY(0);}}
   header h1{
-    font-size:3.2rem;font-weight:900;
-    background:linear-gradient(90deg,var(--purple),var(--purple-light),var(--purple));
+    font-size:2.8rem;font-weight:900;
+    background:linear-gradient(90deg,var(--main),var(--main-light),var(--main));
     background-size:200% auto;
     -webkit-background-clip:text;background-clip:text;color:transparent;
     animation:shine 4s linear infinite;
-    text-shadow:0 0 40px rgba(139,92,246,.35);
-    letter-spacing:-1px;
-    line-height:1.3;
+    text-shadow:0 0 40px var(--main-glow);
+    letter-spacing:-1px;line-height:1.3;
   }
   @keyframes shine{to{background-position:200% center;}}
   header p{
-    margin-top:10px;letter-spacing:10px;
-    color:var(--purple-light);font-weight:900;
-    font-size:1.05rem;
+    margin-top:8px;letter-spacing:10px;
+    color:var(--main-light);font-weight:900;
+    font-size:.95rem;
     animation:pulseText 2.5s ease-in-out infinite;
   }
   @keyframes pulseText{0%,100%{opacity:.5;}50%{opacity:1;}}
 
   .divider{
-    max-width:200px;height:2px;margin:20px auto;
-    background:linear-gradient(90deg,transparent,var(--purple),transparent);
-    box-shadow:0 0 20px var(--purple-glow);
+    max-width:200px;height:2px;margin:14px auto;
+    background:linear-gradient(90deg,transparent,var(--main),transparent);
+    box-shadow:0 0 20px var(--main-glow);
     animation:dividerPulse 3s ease-in-out infinite;
   }
   @keyframes dividerPulse{0%,100%{opacity:.4;width:100px;}50%{opacity:1;width:200px;}}
 
   .search-box{
-    max-width:700px;margin:24px auto;padding:0 20px;
-    display:flex;gap:10px;
+    max-width:720px;margin:18px auto;padding:0 20px;
+    display:flex;gap:10px;position:relative;
     animation:fadeUp .8s ease .15s both;
   }
   @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
   .search-box input{
-    flex:1;padding:15px 20px;border-radius:14px;
+    flex:1;padding:14px 18px;border-radius:12px;
     border:1px solid var(--glass-border);
     background:var(--glass);backdrop-filter:blur(12px);
-    color:var(--text);font-size:1rem;outline:none;transition:.3s;
+    color:var(--text);font-size:.98rem;outline:none;transition:.3s;
     font-family:'Cairo',sans-serif;font-weight:700;
   }
   .search-box input::placeholder{color:rgba(243,232,255,.45);font-weight:600;}
+  body.light-mode .search-box input::placeholder{color:rgba(26,10,48,.4);}
   .search-box input:focus{
-    border-color:var(--purple);
-    box-shadow:0 0 25px var(--purple-glow);
-    background:rgba(139,92,246,.12);
+    border-color:var(--main);
+    box-shadow:0 0 25px var(--main-glow);
   }
   .search-box button{
     display:flex;align-items:center;gap:8px;
-    padding:15px 26px;border:none;border-radius:14px;
-    background:linear-gradient(135deg,var(--purple),var(--purple-dark));
+    padding:14px 24px;border:none;border-radius:12px;
+    background:linear-gradient(135deg,var(--main),var(--main-dark));
     color:#fff;font-weight:800;cursor:pointer;transition:.3s;
-    position:relative;overflow:hidden;
-    font-family:'Cairo',sans-serif;font-size:.95rem;
+    font-family:'Cairo',sans-serif;font-size:.92rem;
   }
   .search-box button svg{width:18px;height:18px;}
-  .search-box button::before{
-    content:'';position:absolute;inset:0;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
-    transform:translateX(-100%);
-    transition:transform .6s;
-  }
-  .search-box button:hover::before{transform:translateX(100%);}
-  .search-box button:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 30px var(--purple-glow);
-  }
+  .search-box button:hover{transform:translateY(-3px);box-shadow:0 12px 30px var(--main-glow);}
   .search-box button:active{transform:scale(.96);}
 
-  .section{max-width:1200px;margin:30px auto;padding:0 20px;}
+  .suggestions{
+    position:absolute;top:100%;left:20px;right:20px;
+    margin-top:6px;background:var(--bg-2);
+    border:1px solid var(--glass-border);border-radius:12px;
+    max-height:280px;overflow-y:auto;z-index:200;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);
+    display:none;
+  }
+  .suggestions.show{display:block;}
+  .suggestion-item{
+    padding:10px 16px;cursor:pointer;font-size:.9rem;
+    display:flex;align-items:center;gap:10px;
+    border-bottom:1px solid var(--glass-border);
+    transition:.2s;
+  }
+  .suggestion-item:last-child{border-bottom:none;}
+  .suggestion-item:hover{background:var(--glass);}
+  .suggestion-item .dot{width:8px;height:8px;border-radius:50%;background:var(--danger);}
+
+  .section{max-width:1200px;margin:24px auto;padding:0 20px;}
   .section h2{
-    font-size:1.25rem;margin-bottom:16px;
+    font-size:1.15rem;margin-bottom:14px;
     color:var(--text);font-weight:900;
     display:flex;align-items:center;gap:10px;
   }
   .section h2 svg{
-    width:22px;height:22px;
-    color:var(--purple);
-    filter:drop-shadow(0 0 8px var(--purple-glow));
+    width:20px;height:20px;color:var(--main);
+    filter:drop-shadow(0 0 8px var(--main-glow));
     animation:iconFloat 2.5s ease-in-out infinite;
   }
   @keyframes iconFloat{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-4px) rotate(5deg);}}
 
   .scroll-row{
-    display:flex;gap:14px;overflow-x:auto;
-    padding:8px 4px 18px;
+    display:flex;gap:12px;overflow-x:auto;
+    padding:6px 4px 14px;
     scrollbar-width:thin;
-    scrollbar-color:var(--purple-dark) transparent;
+    scrollbar-color:var(--main-dark) transparent;
   }
   .scroll-row::-webkit-scrollbar{height:6px;}
-  .scroll-row::-webkit-scrollbar-thumb{background:var(--purple-dark);border-radius:6px;}
+  .scroll-row::-webkit-scrollbar-thumb{background:var(--main-dark);border-radius:6px;}
 
   .channel-card{
-    min-width:170px;max-width:170px;
+    min-width:160px;max-width:160px;
     background:var(--glass);backdrop-filter:blur(12px);
-    border:1px solid var(--glass-border);border-radius:16px;
-    padding:16px 12px;cursor:pointer;transition:.35s;
+    border:1px solid var(--glass-border);border-radius:14px;
+    padding:14px 10px;cursor:pointer;transition:.35s;
     text-align:center;position:relative;overflow:hidden;
     animation:cardIn .5s ease both;
   }
   @keyframes cardIn{from{opacity:0;transform:scale(.85) translateY(15px);}to{opacity:1;transform:scale(1) translateY(0);}}
   .channel-card:hover{
     transform:translateY(-6px) scale(1.04);
-    border-color:var(--purple);
-    box-shadow:0 12px 35px var(--purple-glow);
+    border-color:var(--main);
+    box-shadow:0 12px 35px var(--main-glow);
   }
-  .channel-card .avatar-wrap{position:relative;display:inline-block;margin-bottom:10px;}
+  .channel-card .avatar-wrap{position:relative;display:inline-block;margin-bottom:8px;}
   .channel-card img{
-    width:64px;height:64px;border-radius:50%;
+    width:58px;height:58px;border-radius:50%;
     object-fit:cover;background:#2a1a4a;
-    border:2px solid var(--purple-dark);transition:.35s;
+    border:2px solid var(--main-dark);transition:.35s;
   }
-  .channel-card:hover img{border-color:var(--purple);box-shadow:0 0 20px var(--purple-glow);}
+  .channel-card:hover img{border-color:var(--main);box-shadow:0 0 20px var(--main-glow);}
   .channel-card .live-ring{
     position:absolute;inset:-4px;border:2px solid var(--danger);
     border-radius:50%;animation:liveRing 1.8s ease-out infinite;pointer-events:none;
   }
   @keyframes liveRing{0%{transform:scale(1);opacity:1;}100%{transform:scale(1.25);opacity:0;}}
-  .channel-card .name{font-size:.92rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .channel-card .name{font-size:.88rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .channel-card .viewers{
-    font-size:.8rem;color:var(--purple-light);margin-top:6px;font-weight:700;
+    font-size:.76rem;color:var(--main-light);margin-top:5px;font-weight:700;
     display:flex;align-items:center;justify-content:center;gap:4px;
   }
-  .channel-card .viewers svg{width:14px;height:14px;}
+  .channel-card .viewers svg{width:13px;height:13px;}
+  .channel-card .offline-badge{
+    position:absolute;top:8px;right:8px;
+    background:rgba(0,0,0,.6);color:#aaa;
+    padding:2px 8px;border-radius:8px;font-size:.68rem;font-weight:800;
+  }
+
+  body.compact .channel-card{min-width:120px;max-width:120px;padding:10px 8px;}
+  body.compact .channel-card img{width:48px;height:48px;}
+  body.compact .channel-card .name{font-size:.82rem;}
+  body.compact .channel-card .viewers{font-size:.72rem;}
+
+  .skeleton{
+    min-width:160px;max-width:160px;height:130px;
+    background:linear-gradient(90deg,var(--glass) 0%,var(--glass-border) 50%,var(--glass) 100%);
+    background-size:200% 100%;
+    animation:skeletonShine 1.5s infinite;
+    border-radius:14px;
+  }
+  @keyframes skeletonShine{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
   .fav-btn{
     display:inline-flex;align-items:center;gap:8px;
     background:var(--glass);border:1px solid var(--glass-border);
-    color:var(--text);padding:10px 16px;border-radius:12px;
-    cursor:pointer;font-size:.88rem;transition:.3s;
+    color:var(--text);padding:9px 14px;border-radius:10px;
+    cursor:pointer;font-size:.85rem;transition:.3s;
     font-family:'Cairo',sans-serif;font-weight:700;
   }
   .fav-btn:hover{
-    border-color:var(--purple);background:rgba(139,92,246,.12);
-    transform:translateY(-2px);box-shadow:0 6px 18px var(--purple-glow);
+    border-color:var(--main);
+    transform:translateY(-2px);box-shadow:0 6px 18px var(--main-glow);
   }
-  .fav-btn svg{width:14px;height:14px;color:var(--purple);}
-  .fav-btn .x{color:var(--danger);font-weight:900;padding:0 4px;transition:.25s;}
+  .fav-btn svg{width:13px;height:13px;color:var(--main);}
+  .fav-btn .x{color:var(--danger);font-weight:900;padding:0 4px;}
   .fav-btn .x:hover{transform:scale(1.3);}
 
-  .player-container{max-width:1200px;margin:20px auto 60px;padding:0 20px;animation:fadeUp .8s ease .3s both;}
+  .fav-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+  .fav-actions button{
+    display:flex;align-items:center;gap:6px;
+    background:var(--glass);border:1px solid var(--glass-border);
+    color:var(--text);padding:8px 14px;border-radius:10px;
+    cursor:pointer;font-size:.8rem;font-weight:700;
+    font-family:'Cairo',sans-serif;transition:.25s;
+  }
+  .fav-actions button svg{width:13px;height:13px;}
+  .fav-actions button:hover{
+    border-color:var(--main);box-shadow:0 0 15px var(--main-glow);
+  }
+
+  .player-container{max-width:1300px;margin:18px auto 50px;padding:0 20px;animation:fadeUp .8s ease .3s both;}
+
+  .chat-layout{
+    display:grid;
+    grid-template-columns:1fr 340px;
+    gap:14px;
+    align-items:start;
+  }
+  @media(max-width:1000px){
+    .chat-layout{grid-template-columns:1fr;}
+  }
 
   .video-wrapper{
-    position:relative;background:#000;border-radius:18px;overflow:hidden;
+    position:relative;background:#000;border-radius:16px;overflow:hidden;
     border:1px solid var(--glass-border);
-    box-shadow:0 0 50px rgba(139,92,246,.25);
+    box-shadow:0 0 40px var(--main-glow);
     aspect-ratio:16/9;transition:box-shadow .35s;
   }
-  .video-wrapper:hover{box-shadow:0 0 70px var(--purple-glow);}
-  .video-wrapper.pseudo-fs{
-    position:fixed;top:0;left:0;right:0;bottom:0;
-    width:100vw;height:100vh;z-index:9999;border-radius:0;aspect-ratio:auto;background:#000;
-  }
+  .video-wrapper:hover{box-shadow:0 0 60px var(--main-glow);}
   #player{width:100%;height:100%;background:#000;display:block;}
-  .video-wrapper.pseudo-fs #player{width:100vw;height:100vh;object-fit:contain;}
 
   .placeholder{
     position:absolute;inset:0;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:16px;
-    color:var(--purple-light);text-align:center;padding:20px;
+    align-items:center;justify-content:center;gap:14px;
+    color:var(--main-light);text-align:center;padding:20px;
   }
   .placeholder svg{
-    width:80px;height:80px;animation:float 3s ease-in-out infinite;
-    color:var(--purple);filter:drop-shadow(0 0 20px var(--purple-glow));
+    width:70px;height:70px;animation:float 3s ease-in-out infinite;
+    color:var(--main);filter:drop-shadow(0 0 20px var(--main-glow));
   }
   @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 
+  .live-overlay{
+    position:absolute;top:12px;left:12px;z-index:10;
+    display:flex;gap:8px;
+    opacity:0;transition:opacity .3s;
+  }
+  .video-wrapper:hover .live-overlay,
+  .video-wrapper.playing .live-overlay{opacity:1;}
+  .live-overlay .badge{
+    display:flex;align-items:center;gap:6px;
+    background:rgba(0,0,0,.7);backdrop-filter:blur(10px);
+    padding:6px 12px;border-radius:20px;
+    color:#fff;font-size:.78rem;font-weight:800;
+    border:1px solid rgba(255,255,255,.1);
+  }
+  .live-overlay .badge.live{background:rgba(239,68,68,.9);}
+  .live-overlay .badge svg{width:14px;height:14px;}
+  .live-overlay .badge::before{
+    content:'';width:6px;height:6px;background:#fff;border-radius:50%;
+  }
+  .live-overlay .badge.live::before{animation:pulseBadge 1.2s infinite;}
+  @keyframes pulseBadge{0%,100%{opacity:1;}50%{opacity:.4;}}
+
   .stats-bar{
-    display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;padding:14px 16px;
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding:12px 14px;
     background:var(--glass);backdrop-filter:blur(12px);
-    border:1px solid var(--glass-border);border-radius:14px;font-size:.9rem;
+    border:1px solid var(--glass-border);border-radius:12px;font-size:.85rem;
     animation:fadeUp .5s ease;
   }
   .stats-bar .stat{
-    display:flex;align-items:center;gap:8px;padding:6px 12px;
-    background:rgba(139,92,246,.1);border-radius:10px;transition:.25s;
+    display:flex;align-items:center;gap:7px;padding:5px 11px;
+    background:var(--glass);border-radius:9px;transition:.25s;
     font-weight:700;
   }
-  .stats-bar .stat:hover{background:rgba(139,92,246,.2);}
-  .stats-bar .stat svg{width:16px;height:16px;color:var(--purple-light);}
+  .stats-bar .stat:hover{background:var(--glass-border);}
+  .stats-bar .stat svg{width:15px;height:15px;color:var(--main-light);}
   .stats-bar .stat b{color:var(--text);font-weight:800;}
 
-  .controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center;}
+  .controls{
+    display:flex;gap:8px;margin-top:12px;
+    flex-wrap:wrap;justify-content:center;
+  }
   .controls select,.controls button{
-    display:flex;align-items:center;gap:8px;
-    padding:11px 18px;border-radius:12px;
+    display:flex;align-items:center;gap:7px;
+    padding:10px 16px;border-radius:11px;
     border:1px solid var(--glass-border);
     background:var(--glass);backdrop-filter:blur(12px);
     color:var(--text);cursor:pointer;transition:.3s;
-    font-size:.9rem;font-weight:800;
+    font-size:.86rem;font-weight:800;
     font-family:'Cairo',sans-serif;
   }
-  .controls svg{width:16px;height:16px;}
+  .controls svg{width:15px;height:15px;}
   .controls button:hover,.controls select:hover{
-    border-color:var(--purple);background:rgba(139,92,246,.15);
-    box-shadow:0 0 20px var(--purple-glow);transform:translateY(-2px);
+    border-color:var(--main);
+    box-shadow:0 0 18px var(--main-glow);transform:translateY(-2px);
+  }
+  .controls button.active{
+    background:var(--main);
+    border-color:var(--main);
+    color:#fff;
   }
   .controls button.recording{
     background:var(--danger);border-color:var(--danger);animation:pulseRec 1.2s infinite;
@@ -272,92 +388,272 @@
   .live-badge{
     display:inline-flex;align-items:center;gap:6px;padding:6px 14px;
     background:linear-gradient(135deg,var(--danger),#b91c1c);
-    color:#fff;border-radius:20px;font-size:.82rem;font-weight:900;
+    color:#fff;border-radius:20px;font-size:.8rem;font-weight:900;
     letter-spacing:.5px;animation:livePulse 1.6s infinite;
   }
   .live-badge::before{content:'';width:8px;height:8px;background:#fff;border-radius:50%;}
   @keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.6);}50%{box-shadow:0 0 0 8px rgba(239,68,68,0);}}
 
-  footer{
-    text-align:center;padding:30px;color:rgba(167,139,250,.6);
-    font-size:.88rem;font-weight:700;
-    border-top:1px solid var(--glass-border);margin-top:40px;
+  .chat-sidebar{
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    border-radius:16px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    height:calc(100vh - 120px);
+    max-height:650px;
+    position:sticky;
+    top:80px;
+    backdrop-filter:blur(12px);
+  }
+  .chat-sidebar.hidden{display:none;}
+  .chat-header{
+    padding:12px 16px;
+    background:var(--glass);
+    border-bottom:1px solid var(--glass-border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:800;
+    font-size:.9rem;
+  }
+  .chat-header .title{
+    display:flex;align-items:center;gap:8px;
+    color:var(--main-light);
+  }
+  .chat-header .title svg{width:18px;height:18px;}
+  .chat-header .actions{display:flex;gap:6px;}
+  .chat-header button{
+    background:transparent;
+    border:1px solid var(--glass-border);
+    color:var(--text);
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:.72rem;
+    cursor:pointer;
+    font-family:'Cairo',sans-serif;
+    font-weight:700;
+    transition:.25s;
+    display:flex;align-items:center;gap:4px;
+  }
+  .chat-header button:hover{
+    background:var(--main);
+    border-color:var(--main);
+    color:#fff;
+  }
+  .chat-iframe{
+    flex:1;
+    border:none;
+    background:#0a0414;
+    width:100%;
+    min-height:400px;
+  }
+  .chat-empty{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    padding:20px;
+    text-align:center;
+    color:var(--main-light);
+    font-size:.85rem;
   }
 
-  @media(max-width:600px){
-    header h1{font-size:2.1rem;}
-    header p{letter-spacing:6px;font-size:.88rem;}
+  footer{
+    text-align:center;padding:30px 20px;
+    color:var(--glass-border);
+    font-size:.85rem;font-weight:700;
+    border-top:1px solid var(--glass-border);
+    margin-top:40px;
+  }
+  .footer-content{
+    display:flex;flex-direction:column;align-items:center;gap:12px;
+  }
+  .footer-content > p{color:var(--main-light);opacity:.7;}
+  .developer-info{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 20px;border-radius:12px;
+    background:var(--glass);border:1px solid var(--glass-border);
+    backdrop-filter:blur(12px);
+    font-size:.88rem;font-weight:800;
+    transition:.3s;
+  }
+  .developer-info:hover{
+    border-color:var(--main);
+    box-shadow:0 0 20px var(--main-glow);
+    transform:translateY(-2px);
+  }
+  .dev-link{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--main-light);text-decoration:none;
+    transition:.25s;font-weight:900;
+  }
+  .dev-link:hover{color:#fff;filter:drop-shadow(0 0 8px var(--main-glow));}
+  .dev-link svg{width:16px;height:16px;}
+
+  @media(max-width:700px){
+    header h1{font-size:2rem;}
+    header p{letter-spacing:6px;font-size:.85rem;}
     .search-box{flex-direction:column;}
     .search-box button{width:100%;justify-content:center;}
-    nav{padding:10px 14px;}
-    nav button{padding:6px 10px;font-size:.75rem;}
-    .controls button,.controls select{padding:9px 14px;font-size:.82rem;}
-    .channel-card{min-width:150px;max-width:150px;}
-    .channel-card img{width:56px;height:56px;}
+    nav{padding:10px 12px;}
+    nav .logo{font-size:1rem;}
+    nav .logo svg{width:22px;height:22px;}
+    nav button{padding:6px 10px;font-size:.72rem;}
+    nav button svg{width:14px;height:14px;}
+    .nav-icon-btn{width:34px;height:34px;}
+    .controls button,.controls select{padding:9px 13px;font-size:.8rem;}
+    .channel-card{min-width:140px;max-width:140px;}
+    .channel-card img{width:54px;height:54px;}
+    .suggestions{left:12px;right:12px;}
+    .chat-sidebar{height:500px;position:relative;top:0;}
   }
 
-  .toast-area{position:fixed;top:80px;left:20px;z-index:99999;display:flex;flex-direction:column;gap:10px;}
+  .toast-area{position:fixed;top:80px;left:20px;z-index:99999;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
   .toast{
     display:flex;align-items:center;gap:10px;
-    background:rgba(139,92,246,.95);backdrop-filter:blur(10px);
+    background:var(--main);backdrop-filter:blur(10px);
     color:#fff;padding:12px 18px;border-radius:12px;
     box-shadow:0 8px 28px rgba(0,0,0,.5);
     animation:toastIn .4s ease,toastOut .4s ease 4.6s forwards;
-    font-size:.9rem;font-weight:800;max-width:300px;
-    font-family:'Cairo',sans-serif;
+    font-size:.88rem;font-weight:800;max-width:300px;
+    font-family:'Cairo',sans-serif;pointer-events:all;
   }
   .toast svg{width:18px;height:18px;flex-shrink:0;}
   @keyframes toastIn{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
   @keyframes toastOut{to{opacity:0;transform:translateX(-40px);}}
 
   .rec-result{
-    margin-top:14px;padding:14px 18px;border-radius:14px;
-    background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(139,92,246,.1));
+    margin-top:12px;padding:12px 16px;border-radius:12px;
+    background:linear-gradient(135deg,rgba(34,197,94,.15),var(--glass));
     border:1px solid var(--success);
     display:flex;align-items:center;justify-content:space-between;
     gap:12px;flex-wrap:wrap;animation:fadeUp .5s ease;
   }
-  .rec-result .msg{display:flex;align-items:center;gap:8px;font-weight:800;}
-  .rec-result .msg svg{width:20px;height:20px;color:var(--success);}
+  .rec-result .msg{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.9rem;}
+  .rec-result .msg svg{width:18px;height:18px;color:var(--success);}
   .rec-result a{
     display:flex;align-items:center;gap:6px;
-    color:#fff;background:var(--purple);padding:10px 18px;border-radius:10px;
-    text-decoration:none;font-size:.9rem;font-weight:800;transition:.25s;
+    color:#fff;background:var(--main);padding:9px 16px;border-radius:10px;
+    text-decoration:none;font-size:.86rem;font-weight:800;transition:.25s;
     font-family:'Cairo',sans-serif;
   }
-  .rec-result a:hover{background:var(--purple-dark);transform:translateY(-2px);box-shadow:0 6px 18px var(--purple-glow);}
-  .rec-result a svg{width:16px;height:16px;}
+  .rec-result a:hover{background:var(--main-dark);transform:translateY(-2px);box-shadow:0 6px 18px var(--main-glow);}
+  .rec-result a svg{width:15px;height:15px;}
+
+  .settings-panel{
+    position:fixed;top:0;right:-360px;width:340px;height:100vh;
+    background:var(--bg-2);border-left:1px solid var(--glass-border);
+    z-index:9998;transition:right .4s cubic-bezier(.16,1,.3,1);
+    padding:24px;overflow-y:auto;
+    box-shadow:-10px 0 40px rgba(0,0,0,.5);
+  }
+  .settings-panel.open{right:0;}
+  .settings-panel h3{
+    font-size:1.15rem;font-weight:900;margin-bottom:20px;
+    color:var(--main-light);
+    display:flex;align-items:center;gap:8px;
+  }
+  .settings-close{
+    position:absolute;top:16px;left:16px;
+    background:var(--glass);border:1px solid var(--glass-border);
+    color:var(--text);width:36px;height:36px;border-radius:50%;
+    cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;
+    transition:.25s;
+  }
+  .settings-close:hover{background:var(--danger);color:#fff;border-color:var(--danger);}
+  .setting-group{margin-bottom:24px;}
+  .setting-group label{
+    display:block;font-size:.88rem;font-weight:800;
+    margin-bottom:10px;color:var(--text);
+  }
+  .theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .theme-btn{
+    aspect-ratio:1;border-radius:12px;cursor:pointer;
+    border:2px solid transparent;transition:.25s;
+  }
+  .theme-btn.purple{background:linear-gradient(135deg,#8b5cf6,#6d28d9);}
+  .theme-btn.blue{background:linear-gradient(135deg,#3b82f6,#1e40af);}
+  .theme-btn.pink{background:linear-gradient(135deg,#ec4899,#be185d);}
+  .theme-btn.green{background:linear-gradient(135deg,#10b981,#047857);}
+  .theme-btn.active{border-color:#fff;box-shadow:0 0 20px var(--main-glow);}
+  .theme-btn:hover{transform:scale(1.05);}
+
+  .toggle-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:12px 14px;background:var(--glass);
+    border:1px solid var(--glass-border);border-radius:12px;
+    margin-bottom:10px;font-size:.86rem;font-weight:700;
+  }
+  .toggle-switch{
+    width:46px;height:26px;background:var(--glass-border);
+    border-radius:13px;position:relative;cursor:pointer;
+    transition:.3s;
+  }
+  .toggle-switch::after{
+    content:'';position:absolute;top:3px;right:3px;
+    width:20px;height:20px;background:#fff;border-radius:50%;
+    transition:.3s;
+  }
+  .toggle-switch.on{background:var(--main);}
+  .toggle-switch.on::after{right:calc(100% - 23px);}
+
+  .history-list{
+    display:flex;flex-direction:column;gap:8px;max-height:300px;
+    overflow-y:auto;padding-right:4px;
+  }
+  .history-item{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 14px;background:var(--glass);
+    border:1px solid var(--glass-border);border-radius:10px;
+    cursor:pointer;transition:.25s;font-size:.83rem;
+  }
+  .history-item:hover{
+    border-color:var(--main);transform:translateX(-4px);
+  }
+  .history-item .del{color:var(--danger);cursor:pointer;padding:0 6px;font-weight:900;}
+
+  input[type="range"]{
+    width:100%;accent-color:var(--main);height:6px;
+    background:var(--glass-border);border-radius:3px;
+    outline:none;-webkit-appearance:none;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:20px;height:20px;
+    background:var(--main);border-radius:50%;cursor:pointer;
+    box-shadow:0 0 10px var(--main-glow);
+  }
 </style>
 </head>
 <body>
 
 <nav id="navbar">
   <div class="logo">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="23 7 16 12 23 17 23 7"></polygon>
-      <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
     ساحة ريسبكت
   </div>
   <div class="links">
     <button onclick="go('liveSection')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg>
       المباشر
     </button>
+    <button onclick="go('topSection')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      الأكثر مشاهدة
+    </button>
     <button onclick="go('favSection')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       المفضلة
     </button>
     <button onclick="go('playerSection')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="5 3 19 12 5 21 5 3"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       المشغل
+    </button>
+    <button class="nav-icon-btn" onclick="openSettings()" title="الإعدادات">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </button>
   </div>
 </nav>
@@ -368,116 +664,245 @@
   <div class="divider"></div>
 </header>
 
-<div class="search-box">
-  <input type="text" id="channelInput" placeholder="اكتب اسم قناة Kick هنا..." />
+<div class="search-box" style="position:relative;">
+  <input type="text" id="channelInput" placeholder="اكتب اسم قناة Kick هنا..." autocomplete="off" />
   <button onclick="loadStream()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="5 3 19 12 5 21 5 3"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
     شاهد البث
   </button>
+  <div class="suggestions" id="suggestions"></div>
 </div>
 
 <div class="section" id="liveSection">
   <h2>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
     قنوات مباشرة الآن
   </h2>
-  <div class="scroll-row" id="liveRow">
-    <div style="color:var(--purple-light);font-size:.88rem;">جاري التحميل...</div>
-  </div>
+  <div class="scroll-row" id="liveRow"></div>
+</div>
+
+<div class="section" id="topSection">
+  <h2>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    الأكثر مشاهدة
+  </h2>
+  <div class="scroll-row" id="topRow"></div>
 </div>
 
 <div class="section" id="favSection">
   <h2>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
     المفضلة
   </h2>
+  <div class="fav-actions">
+    <button onclick="exportFavs()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      تصدير
+    </button>
+    <button onclick="document.getElementById('importFavs').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      استيراد
+    </button>
+    <input type="file" id="importFavs" accept=".json" style="display:none" onchange="importFavs(event)">
+  </div>
   <div class="scroll-row" id="favRow">
-    <div style="color:var(--purple-light);font-size:.88rem;">لا يوجد قنوات مفضلة بعد</div>
+    <div style="color:var(--main-light);font-size:.85rem;">لا يوجد قنوات مفضلة بعد</div>
   </div>
 </div>
 
 <div class="player-container" id="playerSection">
-  <div class="video-wrapper" id="videoWrapper">
-    <div class="placeholder" id="placeholder">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="5 3 19 12 5 21 5 3"/>
-      </svg>
-      <p style="font-size:1.1rem;font-weight:800;">اكتب اسم قناة واضغط "شاهد البث"</p>
-      <p style="font-size:.85rem;opacity:.6;font-weight:600;">مثال: klash</p>
-    </div>
-    <video id="player" controls playsinline style="display:none"></video>
-  </div>
+  <div class="chat-layout">
+    <div>
+      <div class="video-wrapper" id="videoWrapper">
+        <div class="live-overlay" id="liveOverlay" style="display:none;">
+          <div class="badge live">LIVE</div>
+          <div class="badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span id="overlayViewers">0</span>
+          </div>
+        </div>
+        <div class="placeholder" id="placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <p style="font-size:1.05rem;font-weight:800;">اكتب اسم قناة واضغط "شاهد البث"</p>
+          <p style="font-size:.82rem;opacity:.6;font-weight:600;">مثال: klash</p>
+        </div>
+        <video id="player" controls playsinline style="display:none"></video>
+      </div>
 
-  <div class="stats-bar" id="statsBar" style="display:none">
-    <div class="stat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
-      <b id="statChannel">-</b>
+      <div class="stats-bar" id="statsBar" style="display:none">
+        <div class="stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+          <b id="statChannel">-</b>
+        </div>
+        <div class="stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <b id="statViewers">0</b> مشاهد
+        </div>
+        <div class="stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/></svg>
+          <b id="statCategory">-</b>
+        </div>
+        <div class="stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <b id="statStatus">-</b>
+        </div>
+        <div class="stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <b id="statFav">-</b>
+        </div>
+      </div>
+
+      <div class="controls">
+        <select id="qualitySelect">
+          <option value="best">أفضل جودة</option>
+          <option value="1080p">1080p</option>
+          <option value="720p">720p</option>
+          <option value="480p">480p</option>
+          <option value="360p">360p</option>
+          <option value="worst">أقل جودة</option>
+        </select>
+        <select id="clipDuration">
+          <option value="10">آخر 10 ثواني</option>
+          <option value="20">آخر 20 ثانية</option>
+          <option value="30" selected>آخر 30 ثانية</option>
+          <option value="60">آخر دقيقة</option>
+          <option value="120">آخر دقيقتين</option>
+          <option value="300">آخر 5 دقائق</option>
+        </select>
+        <button onclick="toggleFullscreen()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          ملء الشاشة
+        </button>
+        <button onclick="toggleChat()" id="chatBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          الشات
+        </button>
+        <button onclick="openKickLogin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          دخول Kick
+        </button>
+        <button onclick="toggleRecord()" id="recBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+          تسجيل
+        </button>
+        <button onclick="saveClip()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+          كليب
+        </button>
+        <button onclick="shareChannel()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          مشاركة
+        </button>
+        <button onclick="toggleFavFromPlayer()" id="favBtnPlayer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          مفضلة
+        </button>
+        <button onclick="stopStream()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+          إيقاف
+        </button>
+        <span class="live-badge" id="liveBadge" style="display:none">LIVE</span>
+      </div>
+
+      <div id="recResultWrap"></div>
     </div>
-    <div class="stat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      <b id="statViewers">0</b> مشاهد
-    </div>
-    <div class="stat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/></svg>
-      <b id="statCategory">-</b>
-    </div>
-    <div class="stat" id="statLiveWrap" style="display:none">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" fill="#ef4444" stroke="none"/></svg>
-      <b>مباشر</b>
-    </div>
-    <div class="stat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      <b id="statFav">-</b>
+
+    <div class="chat-sidebar hidden" id="chatSidebar">
+      <div class="chat-header">
+        <div class="title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span id="chatChannelName">الشات</span>
+        </div>
+        <div class="actions">
+          <button onclick="openKickLogin()" title="تسجيل الدخول">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            دخول
+          </button>
+          <button onclick="toggleChat()" title="إغلاق">✕</button>
+        </div>
+      </div>
+      <div id="chatContainer" style="flex:1;display:flex;flex-direction:column;">
+        <div class="chat-empty">
+          <p>اختر قناة لعرض الشات</p>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="controls">
-    <select id="qualitySelect">
-      <option value="best">أفضل جودة</option>
-      <option value="1080p">1080p</option>
-      <option value="720p">720p</option>
-      <option value="480p">480p</option>
-      <option value="360p">360p</option>
-      <option value="worst">أقل جودة</option>
-    </select>
-    <button onclick="toggleFullscreen()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-      ملء الشاشة
-    </button>
-    <button onclick="toggleRecord()" id="recBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
-      تسجيل
-    </button>
-    <button onclick="saveClip()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
-      كليب (30 ث)
-    </button>
-    <button onclick="toggleFavFromPlayer()" id="favBtnPlayer">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      مفضلة
-    </button>
-    <button onclick="stopStream()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
-      إيقاف
-    </button>
-    <span class="live-badge" id="liveBadge" style="display:none">LIVE</span>
-  </div>
-
-  <div id="recResultWrap"></div>
 </div>
 
-<footer>© 2025 ساحة ريسبكت — جميع الحقوق محفوظة</footer>
+<footer>
+  <div class="footer-content">
+    <p>© 2025 ساحة ريسبكت — جميع الحقوق محفوظة</p>
+    <div class="developer-info">
+      <span>تطوير:</span>
+      <a href="https://x.com/tgduml" target="_blank" rel="noopener" class="dev-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        @tgduml
+      </a>
+    </div>
+  </div>
+</footer>
+
+<div class="settings-panel" id="settingsPanel">
+  <button class="settings-close" onclick="closeSettings()">✕</button>
+  <h3>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    الإعدادات
+  </h3>
+
+  <div class="setting-group">
+    <label>🎨 الألوان</label>
+    <div class="theme-grid">
+      <div class="theme-btn purple active" onclick="setTheme('purple', this)"></div>
+      <div class="theme-btn blue" onclick="setTheme('blue', this)"></div>
+      <div class="theme-btn pink" onclick="setTheme('pink', this)"></div>
+      <div class="theme-btn green" onclick="setTheme('green', this)"></div>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <label>🔊 الأصوات</label>
+    <div class="toggle-row">
+      <span>مؤثرات صوتية</span>
+      <div class="toggle-switch on" id="soundToggle" onclick="toggleSound(this)"></div>
+    </div>
+    <div class="toggle-row">
+      <span>صوت خلفي هادئ</span>
+      <div class="toggle-switch" id="ambientToggle" onclick="toggleAmbient(this)"></div>
+    </div>
+    <label style="margin-top:14px;">مستوى الصوت</label>
+    <input type="range" id="volumeSlider" min="0" max="100" value="70" oninput="setVolume(this.value)">
+  </div>
+
+  <div class="setting-group">
+    <label>⚙️ العرض</label>
+    <div class="toggle-row">
+      <span>الوضع الفاتح</span>
+      <div class="toggle-switch" id="lightToggle" onclick="toggleLight(this)"></div>
+    </div>
+    <div class="toggle-row">
+      <span>الوضع المضغوط</span>
+      <div class="toggle-switch" id="compactToggle" onclick="toggleCompact(this)"></div>
+    </div>
+    <div class="toggle-row">
+      <span>إشعارات المفضلة</span>
+      <div class="toggle-switch" id="notifToggle" onclick="toggleNotif(this)"></div>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <label>🕓 سجل المشاهدة</label>
+    <div class="history-list" id="historyList"></div>
+    <button onclick="clearHistory()" style="margin-top:10px;padding:8px 14px;background:var(--glass);border:1px solid var(--danger);color:var(--danger);border-radius:10px;cursor:pointer;font-family:'Cairo';font-weight:700;font-size:.8rem;width:100%;">
+      🗑 مسح السجل
+    </button>
+  </div>
+</div>
+
 <div class="toast-area" id="toastArea"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
-/* ============ إعدادات ============ */
 const PROXY = 'https://saha-proxy.zt-99-respect.workers.dev';
 function proxied(path){ return `${PROXY}?path=${encodeURIComponent(path)}`; }
 function streamProxy(u){ return `${PROXY}?url=${encodeURIComponent(u)}`; }
@@ -502,7 +927,62 @@ function toast(msg, type){
   setTimeout(()=>t.remove(), 5200);
 }
 
-/* ============ Favorites ============ */
+/* الأصوات */
+let audioCtx = null;
+let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
+let volume = parseFloat(localStorage.getItem('volume') || '0.7');
+let ambientEnabled = localStorage.getItem('ambientEnabled') === 'true';
+let ambientOsc = null;
+
+function playSound(type){
+  if(!soundEnabled) return;
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    let freq = 600, dur = 0.08;
+    if(type === 'success'){ freq = 880; dur = 0.12; }
+    else if(type === 'error'){ freq = 250; dur = 0.2; }
+    else if(type === 'click'){ freq = 700; dur = 0.05; }
+    else if(type === 'fav'){ freq = 1000; dur = 0.15; }
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.15 * volume, audioCtx.currentTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    osc.start(); osc.stop(audioCtx.currentTime + dur);
+  }catch(e){}
+}
+
+function startAmbient(){
+  if(!soundEnabled) return;
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(ambientOsc) return;
+    ambientOsc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    ambientOsc.type = 'sine';
+    ambientOsc.frequency.value = 80;
+    gain.gain.value = 0.02 * volume;
+    ambientOsc.connect(gain); gain.connect(audioCtx.destination);
+    ambientOsc.start();
+  }catch(e){}
+}
+function stopAmbient(){
+  if(ambientOsc){ try{ ambientOsc.stop(); }catch(e){} ambientOsc = null; }
+}
+function setVolume(v){
+  volume = v/100;
+  localStorage.setItem('volume', volume);
+  if(ambientOsc){
+    try{ ambientOsc.disconnect(); }catch(e){}
+    ambientOsc = null;
+    if(ambientEnabled) startAmbient();
+  }
+}
+
+/* المفضلة */
 const FAV_KEY = 'saha_respect_favs';
 const getFavs = ()=>{ try{ return JSON.parse(localStorage.getItem(FAV_KEY)) || []; }catch{ return []; } };
 const setFavs = (a)=>{ localStorage.setItem(FAV_KEY, JSON.stringify(a)); renderFavs(); };
@@ -511,13 +991,13 @@ function toggleFav(ch){
   ch = ch.toLowerCase();
   const favs = getFavs();
   const i = favs.indexOf(ch);
-  if(i>-1){ favs.splice(i,1); toast(`تمت إزالة ${ch}`); }
-  else{ favs.push(ch); toast(`أُضيفت ${ch} للمفضلة`); }
+  if(i>-1){ favs.splice(i,1); toast(`تمت إزالة ${ch}`); playSound('click'); }
+  else{ favs.push(ch); toast(`أُضيفت ${ch} للمفضلة`); playSound('fav'); }
   setFavs(favs);
   if(currentChannel) updateFavButton(currentChannel);
 }
 function toggleFavFromPlayer(){
-  if(!currentChannel){ toast('لا يوجد بث مفتوح','error'); return; }
+  if(!currentChannel){ toast('لا يوجد بث مفتوح','error'); playSound('error'); return; }
   toggleFav(currentChannel);
 }
 function updateFavButton(ch){
@@ -533,7 +1013,7 @@ function renderFavs(){
   const favs = getFavs();
   row.innerHTML='';
   if(favs.length===0){
-    row.innerHTML='<div style="color:var(--purple-light);font-size:.88rem;">لا يوجد قنوات مفضلة بعد</div>';
+    row.innerHTML='<div style="color:var(--main-light);font-size:.85rem;">لا يوجد قنوات مفضلة بعد</div>';
     return;
   }
   favs.forEach(ch=>{
@@ -551,12 +1031,211 @@ function renderFavs(){
     row.appendChild(el);
   });
 }
+function exportFavs(){
+  const favs = getFavs();
+  if(favs.length===0){ toast('لا يوجد قنوات مفضلة','error'); return; }
+  const blob = new Blob([JSON.stringify(favs, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'saha-favorites.json'; a.click();
+  toast('تم تصدير المفضلة');
+  playSound('success');
+}
+function importFavs(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    try{
+      const arr = JSON.parse(ev.target.result);
+      if(Array.isArray(arr)){
+        setFavs(arr);
+        toast(`تم استيراد ${arr.length} قناة`);
+        playSound('success');
+      }
+    }catch(err){ toast('ملف غير صالح','error'); playSound('error'); }
+  };
+  reader.readAsText(file);
+}
 renderFavs();
 
-/* ============ Live Channels ============ */
+/* السجل */
+const HISTORY_KEY = 'saha_respect_history';
+const getHistory = ()=>{ try{ return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }catch{ return []; } };
+function addToHistory(ch){
+  let hist = getHistory();
+  hist = hist.filter(x=>x.ch !== ch);
+  hist.unshift({ch, time: Date.now()});
+  hist = hist.slice(0, 15);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
+  renderHistory();
+}
+function renderHistory(){
+  const list = document.getElementById('historyList');
+  const hist = getHistory();
+  list.innerHTML = '';
+  if(hist.length===0){
+    list.innerHTML = '<div style="color:var(--main-light);font-size:.8rem;padding:6px;">لا يوجد سجل بعد</div>';
+    return;
+  }
+  hist.forEach(h=>{
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    const time = new Date(h.time);
+    const timeStr = time.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+    item.innerHTML = `<span>▶ ${h.ch} <span style="color:var(--main-light);font-size:.72rem;">${timeStr}</span></span><span class="del">✕</span>`;
+    item.onclick = (e)=>{
+      if(e.target.classList.contains('del')){
+        e.stopPropagation();
+        let hist2 = getHistory().filter(x=>x.ch !== h.ch);
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(hist2));
+        renderHistory();
+        return;
+      }
+      document.getElementById('channelInput').value = h.ch;
+      loadStream();
+      closeSettings();
+    };
+    list.appendChild(item);
+  });
+}
+function clearHistory(){
+  localStorage.removeItem(HISTORY_KEY);
+  renderHistory();
+  toast('تم مسح السجل');
+}
+renderHistory();
+
+/* الإعدادات */
+function setTheme(name, btn){
+  document.documentElement.setAttribute('data-theme', name);
+  localStorage.setItem('saha_theme', name);
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  playSound('click');
+}
+function toggleSound(el){
+  soundEnabled = !soundEnabled;
+  el.classList.toggle('on', soundEnabled);
+  localStorage.setItem('soundEnabled', soundEnabled);
+  if(soundEnabled) playSound('click');
+}
+function toggleAmbient(el){
+  ambientEnabled = !ambientEnabled;
+  el.classList.toggle('on', ambientEnabled);
+  localStorage.setItem('ambientEnabled', ambientEnabled);
+  if(ambientEnabled){ startAmbient(); } else { stopAmbient(); }
+}
+function toggleLight(el){
+  const on = document.body.classList.toggle('light-mode');
+  el.classList.toggle('on', on);
+  localStorage.setItem('lightMode', on);
+}
+function toggleCompact(el){
+  const on = document.body.classList.toggle('compact');
+  el.classList.toggle('on', on);
+  localStorage.setItem('compactMode', on);
+}
+function toggleNotif(el){
+  if(Notification.permission === 'granted'){
+    const on = localStorage.getItem('notifEnabled') !== 'true';
+    localStorage.setItem('notifEnabled', on);
+    el.classList.toggle('on', on);
+    if(on) initializeFavsStatus();
+  } else if(Notification.permission !== 'denied'){
+    Notification.requestPermission().then(p=>{
+      if(p === 'granted'){
+        localStorage.setItem('notifEnabled', true);
+        el.classList.add('on');
+        toast('الإشعارات مفعلة');
+        initializeFavsStatus();
+      }
+    });
+  } else {
+    toast('الإشعارات محظورة','error');
+  }
+}
+
+async function initializeFavsStatus(){
+  const favs = getFavs();
+  if(favs.length === 0) return;
+  const status = {};
+  for(const ch of favs){
+    try{
+      const res = await fetch(proxied(`/api/v2/channels/${ch}`));
+      if(!res.ok){ status[ch] = false; continue; }
+      const data = await res.json();
+      status[ch] = !!(data.playback_url || data.livestream);
+    }catch(e){ status[ch] = false; }
+  }
+  localStorage.setItem('fav_live_status', JSON.stringify(status));
+}
+
+(function restoreSettings(){
+  const theme = localStorage.getItem('saha_theme') || 'purple';
+  document.documentElement.setAttribute('data-theme', theme);
+  document.querySelectorAll('.theme-btn').forEach(b=>{
+    b.classList.toggle('active', b.classList.contains(theme));
+  });
+  if(localStorage.getItem('lightMode') === 'true'){
+    document.body.classList.add('light-mode');
+    document.getElementById('lightToggle').classList.add('on');
+  }
+  if(localStorage.getItem('compactMode') === 'true'){
+    document.body.classList.add('compact');
+    document.getElementById('compactToggle').classList.add('on');
+  }
+  if(!soundEnabled) document.getElementById('soundToggle').classList.remove('on');
+  if(ambientEnabled) document.getElementById('ambientToggle').classList.add('on');
+  if(localStorage.getItem('notifEnabled') === 'true' && Notification.permission === 'granted'){
+    document.getElementById('notifToggle').classList.add('on');
+  }
+  document.getElementById('volumeSlider').value = volume * 100;
+})();
+
+function openSettings(){ document.getElementById('settingsPanel').classList.add('open'); }
+function closeSettings(){ document.getElementById('settingsPanel').classList.remove('open'); }
+
+/* البحث */
+const input = document.getElementById('channelInput');
+const suggestions = document.getElementById('suggestions');
+let allChannels = [];
+
+function setupSearch(){
+  const pool = [...new Set([...FEATURED, ...getFavs(), ...getHistory().map(h=>h.ch)])];
+  allChannels = pool;
+  input.addEventListener('input', ()=>{
+    const q = input.value.trim().toLowerCase();
+    if(!q){ suggestions.classList.remove('show'); return; }
+    const matches = allChannels.filter(ch=>ch.toLowerCase().includes(q)).slice(0, 8);
+    if(matches.length===0){ suggestions.classList.remove('show'); return; }
+    suggestions.innerHTML = matches.map(m=>`
+      <div class="suggestion-item" onclick="pickSuggestion('${m}')">
+        <span class="dot"></span> ${m}
+      </div>
+    `).join('');
+    suggestions.classList.add('show');
+  });
+  input.addEventListener('blur', ()=>setTimeout(()=>suggestions.classList.remove('show'), 200));
+  input.addEventListener('keypress', e=>{ if(e.key === 'Enter') loadStream(); });
+}
+function pickSuggestion(ch){
+  input.value = ch;
+  suggestions.classList.remove('show');
+  loadStream();
+}
+setupSearch();
+
+/* القنوات */
 async function loadLiveChannels(){
   const row = document.getElementById('liveRow');
-  row.innerHTML = '<div style="color:var(--purple-light);font-size:.88rem;">جاري التحميل...</div>';
+  const topRow = document.getElementById('topRow');
+  row.innerHTML = '';
+  topRow.innerHTML = '';
+  for(let i=0;i<5;i++){
+    const s = document.createElement('div'); s.className='skeleton'; row.appendChild(s);
+    const t = document.createElement('div'); t.className='skeleton'; topRow.appendChild(t);
+  }
 
   const results = await Promise.all(FEATURED.map(async ch => {
     try{
@@ -564,48 +1243,63 @@ async function loadLiveChannels(){
       if(!res.ok) return null;
       const data = await res.json();
       const isLive = !!(data.playback_url || data.livestream);
-      if(!isLive) return null;
       return {
         slug: ch,
         pic: data.user?.profile_pic || '',
-        viewers: data.viewers_count ?? data.livestream?.viewer_count ?? 0
+        viewers: data.viewers_count ?? data.livestream?.viewer_count ?? 0,
+        live: isLive
       };
     }catch(e){ return null; }
   }));
 
-  const live = results.filter(Boolean);
-  row.innerHTML='';
-  if(live.length===0){
-    row.innerHTML='<div style="font-size:.88rem;color:var(--purple-light);">لا يوجد بث مباشر حالياً</div>';
-    return;
+  const all = results.filter(Boolean);
+  const live = all.filter(r=>r.live);
+  row.innerHTML = '';
+  topRow.innerHTML = '';
+
+  if(live.length === 0){
+    row.innerHTML = '<div style="color:var(--main-light);font-size:.85rem;">لا يوجد بث مباشر حالياً</div>';
+  } else {
+    live.sort((a,b)=>b.viewers-a.viewers);
+    live.forEach((r,i)=> row.appendChild(createCard(r, i)));
   }
 
-  live.sort((a,b)=>b.viewers-a.viewers);
-  live.forEach((r,i)=>{
-    const card = document.createElement('div');
-    card.className='channel-card';
-    card.style.animationDelay=(i*0.05)+'s';
-    card.innerHTML = `
-      <div class="avatar-wrap">
-        <img src="${r.pic}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22><rect fill=%22%236d28d9%22 width=%2260%22 height=%2260%22/><text x=%2230%22 y=%2238%22 fill=%22white%22 font-size=%2224%22 text-anchor=%22middle%22>?</text></svg>'">
-        <span class="live-ring"></span>
-      </div>
-      <div class="name">${r.slug}</div>
-      <div class="viewers">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        ${(r.viewers||0).toLocaleString()}
-      </div>
-    `;
-    card.onclick = ()=>{
-      document.getElementById('channelInput').value = r.slug;
-      loadStream();
-    };
-    row.appendChild(card);
+  const top = [...all].sort((a,b)=>b.viewers-a.viewers).slice(0,8);
+  top.forEach((r,i)=>{
+    if(r.viewers > 0) topRow.appendChild(createCard(r, i));
   });
+  if(topRow.innerHTML === ''){
+    topRow.innerHTML = '<div style="color:var(--main-light);font-size:.85rem;">لا يوجد بيانات</div>';
+  }
 }
-loadLiveChannels();
 
-/* ============ Player ============ */
+function createCard(r, i){
+  const card = document.createElement('div');
+  card.className = 'channel-card';
+  card.style.animationDelay = (i*0.05)+'s';
+  card.innerHTML = `
+    <div class="avatar-wrap">
+      <img src="${r.pic}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22><rect fill=%22%236d28d9%22 width=%2260%22 height=%2260%22/><text x=%2230%22 y=%2238%22 fill=%22white%22 font-size=%2224%22 text-anchor=%22middle%22>?</text></svg>'">
+      ${r.live ? '<span class="live-ring"></span>' : ''}
+    </div>
+    <div class="name">${r.slug}</div>
+    <div class="viewers">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      ${(r.viewers||0).toLocaleString()}
+    </div>
+    ${!r.live ? '<div class="offline-badge">أوفلاين</div>' : ''}
+  `;
+  card.onclick = ()=>{
+    input.value = r.slug;
+    loadStream();
+  };
+  return card;
+}
+
+loadLiveChannels();
+setInterval(loadLiveChannels, 90000);
+
+/* المشغل */
 let hlsInstance = null;
 let currentChannel = null;
 let mediaRecorder = null;
@@ -613,6 +1307,9 @@ let recordedChunks = [];
 let clipBuffer = [];
 let clipRecorder = null;
 let isRecording = false;
+let viewersInterval = null;
+let statusInterval = null;
+let chatVisible = false;
 
 async function fetchChannelData(ch){
   const res = await fetch(proxied(`/api/v2/channels/${ch}`));
@@ -621,20 +1318,26 @@ async function fetchChannelData(ch){
 }
 
 async function loadStream(){
-  const channel = document.getElementById('channelInput').value.trim().toLowerCase();
-  if(!channel){ toast('اكتب اسم القناة','error'); return; }
+  const channel = input.value.trim().toLowerCase();
+  if(!channel){ toast('اكتب اسم القناة','error'); playSound('error'); return; }
   currentChannel = channel;
 
   const placeholder = document.getElementById('placeholder');
   const player = document.getElementById('player');
   const liveBadge = document.getElementById('liveBadge');
   const statsBar = document.getElementById('statsBar');
+  const liveOverlay = document.getElementById('liveOverlay');
   document.getElementById('recResultWrap').innerHTML='';
 
-  placeholder.style.display='flex';
+  if(viewersInterval) clearInterval(viewersInterval);
+  if(statusInterval) clearInterval(statusInterval);
+  liveOverlay.style.display = 'none';
+  document.querySelector('.video-wrapper').classList.remove('playing');
+
+  placeholder.style.display = 'flex';
   placeholder.innerHTML = '<p style="animation:pulseText 1s infinite">جاري تحميل البث...</p>';
-  player.style.display='none';
-  statsBar.style.display='none';
+  player.style.display = 'none';
+  statsBar.style.display = 'none';
 
   try{
     const data = await fetchChannelData(channel);
@@ -646,21 +1349,29 @@ async function loadStream(){
     document.getElementById('statChannel').textContent = channel;
     document.getElementById('statViewers').textContent = viewers.toLocaleString();
     document.getElementById('statCategory').textContent = category;
-    document.getElementById('statLiveWrap').style.display = m3u8 ? 'flex' : 'none';
-    statsBar.style.display='flex';
+    statsBar.style.display = 'flex';
     updateFavButton(channel);
+    addToHistory(channel);
+
+    if(chatVisible) loadChat(channel);
+
+    document.getElementById('overlayViewers').textContent = viewers.toLocaleString();
+    document.getElementById('liveOverlay').style.display = m3u8 ? 'flex' : 'none';
+
+    document.getElementById('statStatus').textContent = m3u8 ? 'مباشر الآن' : 'غير مباشر';
+    document.getElementById('statStatus').style.color = m3u8 ? 'var(--success)' : 'var(--danger)';
 
     if(!m3u8){
       placeholder.innerHTML = `
-        <img src="${pic}" style="width:120px;height:120px;border-radius:50%;border:3px solid var(--purple);object-fit:cover;background:#2a1a4a;box-shadow:0 0 30px var(--purple-glow);" onerror="this.style.display='none'">
-        <p style="font-size:1.4rem;font-weight:900;">${channel}</p>
+        <img src="${pic}" style="width:110px;height:110px;border-radius:50%;border:3px solid var(--main);object-fit:cover;background:var(--bg-2);box-shadow:0 0 30px var(--main-glow);" onerror="this.style.display='none'">
+        <p style="font-size:1.3rem;font-weight:900;">${channel}</p>
         <p style="color:var(--danger);font-weight:800;">غير مباشر حالياً</p>
-        ${category!=='-' ? '<p style="font-size:.88rem;opacity:.7;">الفئة: '+category+'</p>' : ''}
+        ${category!=='-' ? '<p style="font-size:.85rem;opacity:.7;">الفئة: '+category+'</p>' : ''}
       `;
+      statusInterval = setInterval(()=>checkStatus(channel), 60000);
       return;
     }
 
-    // تمرير البث عبر Worker
     m3u8 = streamProxy(m3u8);
 
     if(hlsInstance){ hlsInstance.destroy(); hlsInstance=null; }
@@ -675,12 +1386,14 @@ async function loadStream(){
         applyQuality();
         player.play().catch(()=>{});
         startClipRecorder();
+        playSound('success');
       });
       hlsInstance.on(Hls.Events.ERROR, (e,d)=>{
         if(d.fatal){
           placeholder.style.display='flex';
           placeholder.innerHTML='<p>⚠ فشل تحميل البث</p>';
           player.style.display='none';
+          playSound('error');
         }
       });
     } else if(player.canPlayType('application/vnd.apple.mpegurl')){
@@ -689,17 +1402,47 @@ async function loadStream(){
       throw new Error('متصفحك لا يدعم HLS');
     }
 
-    placeholder.style.display='none';
-    player.style.display='block';
-    liveBadge.style.display='inline-flex';
+    placeholder.style.display = 'none';
+    player.style.display = 'block';
+    liveBadge.style.display = 'inline-flex';
+    document.querySelector('.video-wrapper').classList.add('playing');
+
+    viewersInterval = setInterval(()=>updateViewers(channel), 30000);
 
   } catch(err){
     console.error(err);
-    placeholder.style.display='flex';
-    player.style.display='none';
-    liveBadge.style.display='none';
+    placeholder.style.display = 'flex';
+    player.style.display = 'none';
+    liveBadge.style.display = 'none';
     placeholder.innerHTML = `<p>❌ ${err.message}</p>`;
+    playSound('error');
   }
+}
+
+async function updateViewers(ch){
+  try{
+    const res = await fetch(proxied(`/api/v2/channels/${ch}`));
+    if(!res.ok) return;
+    const data = await res.json();
+    const v = data.viewers_count ?? data.livestream?.viewer_count ?? 0;
+    document.getElementById('statViewers').textContent = v.toLocaleString();
+    document.getElementById('overlayViewers').textContent = v.toLocaleString();
+  }catch(e){}
+}
+
+async function checkStatus(ch){
+  try{
+    const res = await fetch(proxied(`/api/v2/channels/${ch}`));
+    if(!res.ok) return;
+    const data = await res.json();
+    const m3u8 = data.playback_url || data.livestream?.playback_url;
+    if(m3u8){
+      clearInterval(statusInterval);
+      toast(`🔴 ${ch} بدأ البث!`);
+      playSound('success');
+      loadStream();
+    }
+  }catch(e){}
 }
 
 function applyQuality(){
@@ -723,65 +1466,84 @@ function stopStream(){
   if(hlsInstance){ hlsInstance.destroy(); hlsInstance=null; }
   if(mediaRecorder && isRecording){ mediaRecorder.stop(); }
   if(clipRecorder){ try{ clipRecorder.stop(); }catch(e){} clipRecorder=null; }
+  if(viewersInterval) clearInterval(viewersInterval);
+  if(statusInterval) clearInterval(statusInterval);
   const player = document.getElementById('player');
   player.pause(); player.removeAttribute('src'); player.load();
   player.style.display='none';
   document.getElementById('liveBadge').style.display='none';
   document.getElementById('statsBar').style.display='none';
+  document.getElementById('liveOverlay').style.display='none';
+  document.querySelector('.video-wrapper').classList.remove('playing');
   const ph = document.getElementById('placeholder');
   ph.style.display='flex';
   ph.innerHTML='<p>تم إيقاف البث</p>';
   currentChannel = null;
+  document.getElementById('chatContainer').innerHTML = '<div class="chat-empty"><p>اختر قناة لعرض الشات</p></div>';
+  document.getElementById('chatChannelName').textContent = 'الشات';
 }
 
-/* ============ Fullscreen ============ */
+/* ============================================================
+   ملء الشاشة — يستخدم fullscreen على الفيديو نفسه
+============================================================ */
 function toggleFullscreen(){
-  const w = document.getElementById('videoWrapper');
-  const nav = document.getElementById('navbar');
   const player = document.getElementById('player');
+  const nav = document.getElementById('navbar');
+  const sidebar = document.getElementById('chatSidebar');
 
-  if(!document.fullscreenElement && w.requestFullscreen){
-    w.requestFullscreen().then(()=>{
+  if(!document.fullscreenElement && !document.webkitFullscreenElement){
+    // نطلب fullscreen على الفيديو نفسه (Native — مثل زر المشغل)
+    if(player.requestFullscreen){
+      player.requestFullscreen().then(()=>{
+        nav.classList.add('hidden');
+        if(sidebar) sidebar.style.display = 'none';
+      }).catch(()=>{
+        // إذا فشل، جرب على الـ wrapper
+        const w = document.getElementById('videoWrapper');
+        if(w.requestFullscreen){
+          w.requestFullscreen().then(()=>{
+            nav.classList.add('hidden');
+            if(sidebar) sidebar.style.display = 'none';
+          }).catch(()=>toast('ملء الشاشة غير مدعوم','error'));
+        }
+      });
+    } else if(player.webkitRequestFullscreen){
+      player.webkitRequestFullscreen();
       nav.classList.add('hidden');
-      player.style.objectFit='contain';
-    }).catch(()=>{
-      w.classList.add('pseudo-fs');
-      nav.classList.add('hidden');
-      player.style.objectFit='contain';
-      toast('وضع ملء الشاشة');
-    });
-  } else if(document.fullscreenElement){
-    document.exitFullscreen().then(()=>{
-      nav.classList.remove('hidden');
-    });
-  } else {
-    w.classList.toggle('pseudo-fs');
-    nav.classList.toggle('hidden');
-    if(w.classList.contains('pseudo-fs')){
-      player.style.objectFit='contain';
-      toast('وضع ملء الشاشة');
+      if(sidebar) sidebar.style.display = 'none';
     } else {
-      player.style.objectFit='';
+      toast('ملء الشاشة غير مدعوم','error');
     }
+  } else {
+    if(document.exitFullscreen) document.exitFullscreen();
+    else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
   }
 }
-document.addEventListener('fullscreenchange', ()=>{
+
+function handleFsChange(){
   const nav = document.getElementById('navbar');
-  if(document.fullscreenElement) nav.classList.add('hidden');
-  else nav.classList.remove('hidden');
-});
+  const sidebar = document.getElementById('chatSidebar');
+  const fsElement = document.fullscreenElement || document.webkitFullscreenElement;
+  if(fsElement){
+    nav.classList.add('hidden');
+    if(sidebar) sidebar.style.display = 'none';
+  } else {
+    nav.classList.remove('hidden');
+    if(sidebar) sidebar.style.display = '';
+  }
+}
+document.addEventListener('fullscreenchange', handleFsChange);
+document.addEventListener('webkitfullscreenchange', handleFsChange);
+
 document.addEventListener('keydown', e=>{
   if(e.key === 'Escape'){
-    const w = document.getElementById('videoWrapper');
-    if(w.classList.contains('pseudo-fs')){
-      w.classList.remove('pseudo-fs');
-      document.getElementById('navbar').classList.remove('hidden');
-      document.getElementById('player').style.objectFit='';
+    if(document.getElementById('settingsPanel').classList.contains('open')){
+      closeSettings();
     }
   }
 });
 
-/* ============ Recording ============ */
+/* التسجيل */
 function getStream(){
   const p = document.getElementById('player');
   if(p.captureStream) return p.captureStream();
@@ -790,7 +1552,7 @@ function getStream(){
 }
 
 function toggleRecord(){
-  if(!currentChannel){ toast('افتح بث أولاً','error'); return; }
+  if(!currentChannel){ toast('افتح بث أولاً','error'); playSound('error'); return; }
   const btn = document.getElementById('recBtn');
   if(!isRecording){
     const stream = getStream();
@@ -814,6 +1576,7 @@ function toggleRecord(){
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
       إيقاف التسجيل`;
     toast('بدأ التسجيل...');
+    playSound('click');
   } else {
     mediaRecorder.stop();
     isRecording = false;
@@ -824,7 +1587,7 @@ function toggleRecord(){
   }
 }
 
-/* ============ Clip ============ */
+/* الكليب */
 function startClipRecorder(){
   const stream = getStream();
   if(!stream) return;
@@ -834,7 +1597,7 @@ function startClipRecorder(){
   clipRecorder.ondataavailable = e=>{
     if(e.data.size>0){
       clipBuffer.push({time: Date.now(), data: e.data});
-      const cutoff = Date.now() - 30000;
+      const cutoff = Date.now() - 300000;
       clipBuffer = clipBuffer.filter(c=>c.time >= cutoff);
     }
   };
@@ -842,11 +1605,15 @@ function startClipRecorder(){
 }
 
 function saveClip(){
-  if(!clipBuffer || clipBuffer.length===0){ toast('انتظر شوي','error'); return; }
-  const chunks = clipBuffer.map(c=>c.data);
+  if(!currentChannel){ toast('افتح بث أولاً','error'); return; }
+  if(!clipBuffer || clipBuffer.length===0){ toast('انتظر شوي...','error'); return; }
+  const seconds = parseInt(document.getElementById('clipDuration').value);
+  const cutoff = Date.now() - (seconds*1000);
+  const chunks = clipBuffer.filter(c=>c.time >= cutoff).map(c=>c.data);
+  if(chunks.length === 0){ toast('لا يوجد بيانات كافية','error'); return; }
   const blob = new Blob(chunks, {type:'video/webm'});
   const url = URL.createObjectURL(blob);
-  showResult(url, `كليب_${currentChannel}_${Date.now()}.webm`, 'تم حفظ الكليب');
+  showResult(url, `كليب_${currentChannel}_${seconds}ث_${Date.now()}.webm`, `تم حفظ الكليب (${seconds} ثانية)`);
 }
 
 function showResult(url, filename, msg){
@@ -860,56 +1627,99 @@ function showResult(url, filename, msg){
     </span>
     <a href="${url}" download="${filename}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      تحميل الملف
+      تحميل
     </a>
   `;
   wrap.innerHTML='';
   wrap.appendChild(box);
   toast(msg);
+  playSound('success');
 }
 
-/* ============ Notifications ============ */
-async function requestNotifPerm(){
-  if(!('Notification' in window)) return;
-  if(Notification.permission === 'default'){
-    try{ await Notification.requestPermission(); }catch(e){}
+/* الشات */
+function toggleChat(){
+  const sidebar = document.getElementById('chatSidebar');
+  chatVisible = !chatVisible;
+  sidebar.classList.toggle('hidden', !chatVisible);
+  const btn = document.getElementById('chatBtn');
+  if(chatVisible){
+    btn.classList.add('active');
+    if(currentChannel) loadChat(currentChannel);
+  } else {
+    btn.classList.remove('active');
+  }
+  playSound('click');
+}
+
+function loadChat(channel){
+  if(!channel) return;
+  const c = document.getElementById('chatContainer');
+  document.getElementById('chatChannelName').textContent = channel;
+  c.innerHTML = `<iframe class="chat-iframe" src="https://kick.com/popout/${channel}/chat" allowfullscreen></iframe>`;
+}
+
+function openKickLogin(){
+  window.open('https://kick.com/', 'kick_login', 'width=500,height=700,resizable=yes,scrollbars=yes');
+  toast('سجّل دخولك ثم ارجع للموقع');
+  playSound('click');
+}
+
+/* مشاركة */
+function shareChannel(){
+  if(!currentChannel){ toast('افتح قناة أولاً','error'); return; }
+  const url = `https://kick.com/${currentChannel}`;
+  if(navigator.share){
+    navigator.share({title:`قناة ${currentChannel}`, text:'شاهد البث على Kick', url});
+  } else {
+    navigator.clipboard.writeText(url).then(()=>{
+      toast('تم نسخ الرابط');
+      playSound('success');
+    });
   }
 }
-requestNotifPerm();
 
+/* الإشعارات */
 async function checkFavsLive(){
   const favs = getFavs();
-  if(favs.length===0) return;
+  if(favs.length === 0) return;
+  if(localStorage.getItem('notifEnabled') !== 'true') return;
   if(Notification.permission !== 'granted') return;
-  const status = JSON.parse(sessionStorage.getItem('fav_live_status') || '{}');
+
+  const prevStatusRaw = localStorage.getItem('fav_live_status');
+  const isFirstRun = prevStatusRaw === null;
+  const prevStatus = isFirstRun ? {} : JSON.parse(prevStatusRaw);
+  const currentStatus = {};
+
   for(const ch of favs){
     try{
       const res = await fetch(proxied(`/api/v2/channels/${ch}`));
-      if(!res.ok) continue;
+      if(!res.ok){ currentStatus[ch] = false; continue; }
       const data = await res.json();
       const isLive = !!(data.playback_url || data.livestream);
-      if(isLive && !status[ch]){
+      currentStatus[ch] = isLive;
+
+      if(isFirstRun) continue;
+
+      if(isLive && prevStatus[ch] === false){
         try{
-          new Notification('بث مباشر الآن!', {
+          new Notification('🔴 بث مباشر الآن!', {
             body: `${ch} بدأ البث على Kick`,
             icon: data.user?.profile_pic
           });
         }catch(e){}
-        toast(`${ch} بدأ البث!`);
-        status[ch] = true;
-      } else if(!isLive && status[ch]){
-        status[ch] = false;
+        toast(`🔴 ${ch} بدأ البث!`);
+        playSound('success');
       }
-    }catch(e){}
+    }catch(e){
+      currentStatus[ch] = false;
+    }
   }
-  sessionStorage.setItem('fav_live_status', JSON.stringify(status));
-}
-setInterval(checkFavsLive, 60000);
-setTimeout(checkFavsLive, 5000);
 
-document.getElementById('channelInput').addEventListener('keypress', e=>{
-  if(e.key === 'Enter') loadStream();
-});
+  localStorage.setItem('fav_live_status', JSON.stringify(currentStatus));
+}
+
+setInterval(checkFavsLive, 60000);
+setTimeout(checkFavsLive, 3000);
 </script>
 </body>
 </html>

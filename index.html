@@ -21,83 +21,34 @@
   *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;}
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;font-weight:700;}
-
-  body::before{
-    content:'';position:fixed;inset:0;
-    background:
-      radial-gradient(circle at 20% 20%, var(--main-glow), transparent 50%),
-      radial-gradient(circle at 80% 80%, var(--main-glow), transparent 50%);
-    opacity:.35;animation:bgMove 18s ease-in-out infinite alternate;
-    z-index:-2;pointer-events:none;
-  }
-  body::after{
-    content:'';position:fixed;inset:0;
-    background-image:
-      linear-gradient(var(--glass-border) 1px, transparent 1px),
-      linear-gradient(90deg,var(--glass-border) 1px, transparent 1px);
-    background-size:40px 40px;opacity:.3;z-index:-1;pointer-events:none;
-  }
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 20% 20%, var(--main-glow), transparent 50%),radial-gradient(circle at 80% 80%, var(--main-glow), transparent 50%);opacity:.35;animation:bgMove 18s ease-in-out infinite alternate;z-index:-2;pointer-events:none;}
+  body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(var(--glass-border) 1px, transparent 1px),linear-gradient(90deg,var(--glass-border) 1px, transparent 1px);background-size:40px 40px;opacity:.3;z-index:-1;pointer-events:none;}
   @keyframes bgMove{0%{transform:scale(1) rotate(0);}100%{transform:scale(1.15) rotate(4deg);}}
 
-  nav#mainNav{
-    position:sticky;top:0;z-index:100;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:10px 16px;background:rgba(10,4,20,.9);
-    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-    border-bottom:1px solid var(--glass-border);gap:8px;
-  }
+  nav#mainNav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(10,4,20,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--glass-border);gap:8px;}
   nav#mainNav.hidden{transform:translateY(-100%);opacity:0;pointer-events:none;}
-  nav#mainNav .logo{
-    display:flex;align-items:center;gap:6px;font-weight:900;font-size:1rem;
-    background:linear-gradient(90deg,var(--main),var(--main-light));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    cursor:pointer;white-space:nowrap;flex-shrink:0;
-  }
+  nav#mainNav .logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:1rem;background:linear-gradient(90deg,var(--main),var(--main-light));-webkit-background-clip:text;background-clip:text;color:transparent;cursor:pointer;white-space:nowrap;flex-shrink:0;}
   nav#mainNav .logo svg{width:20px;height:20px;color:var(--main);}
   nav#mainNav .main-tabs{display:flex;gap:4px;align-items:center;overflow-x:auto;flex:1;scrollbar-width:none;}
   nav#mainNav .main-tabs::-webkit-scrollbar{display:none;}
-  nav#mainNav .main-tabs > button{
-    display:flex;align-items:center;gap:5px;
-    background:transparent;border:1px solid transparent;color:var(--text);
-    padding:7px 12px;border-radius:10px;cursor:pointer;
-    font-size:.78rem;font-family:'Cairo',sans-serif;font-weight:800;
-    transition:.25s;white-space:nowrap;flex-shrink:0;
-  }
+  nav#mainNav .main-tabs > button{display:flex;align-items:center;gap:5px;background:transparent;border:1px solid transparent;color:var(--text);padding:7px 12px;border-radius:10px;cursor:pointer;font-size:.78rem;font-family:'Cairo',sans-serif;font-weight:800;transition:.25s;white-space:nowrap;flex-shrink:0;}
   nav#mainNav .main-tabs > button svg{width:14px;height:14px;}
   nav#mainNav .main-tabs > button:hover{background:var(--glass);border-color:var(--main);}
   nav#mainNav .main-tabs > button.icon-only{width:34px;height:34px;padding:0;justify-content:center;border-radius:50%;}
   nav#mainNav .main-tabs > button.icon-only svg{width:16px;height:16px;}
 
-  .notif-btn-wrap{
-    position:relative;display:flex;align-items:center;gap:4px;
-    padding:6px 10px;border-radius:10px;cursor:pointer;transition:.25s;flex-shrink:0;
-  }
+  .notif-btn-wrap{position:relative;display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:10px;cursor:pointer;transition:.25s;flex-shrink:0;}
   .notif-btn-wrap:hover{background:var(--glass);}
   .notif-btn-wrap .bell-icon{width:20px;height:20px;color:var(--main-light);transition:.3s;}
   .notif-btn-wrap.active .bell-icon{color:var(--main);}
   .notif-btn-wrap.has-new .bell-icon{animation:bellShake 1.2s infinite;color:var(--warning);}
   @keyframes bellShake{0%,100%{transform:rotate(0);}10%{transform:rotate(-15deg);}20%{transform:rotate(15deg);}50%{transform:rotate(0);}}
   .notif-btn-wrap .bell-label{font-size:.72rem;font-weight:800;color:var(--main-light);}
-  .notif-btn-wrap .notif-count{
-    position:absolute;top:-2px;right:0;background:var(--danger);color:#fff;
-    font-size:.6rem;font-weight:900;min-width:16px;height:16px;padding:0 4px;
-    border-radius:8px;display:flex;align-items:center;justify-content:center;
-  }
+  .notif-btn-wrap .notif-count{position:absolute;top:-2px;right:0;background:var(--danger);color:#fff;font-size:.6rem;font-weight:900;min-width:16px;height:16px;padding:0 4px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
 
-  .notif-dropdown{
-    position:fixed;top:60px;left:12px;width:360px;max-width:calc(100vw - 24px);
-    max-height:70vh;overflow-y:auto;background:var(--bg-2);
-    border:1px solid var(--glass-border);border-radius:16px;
-    box-shadow:0 20px 60px rgba(0,0,0,.6);z-index:9998;
-    transform:translateY(-20px) scale(.95);opacity:0;pointer-events:none;
-    transition:.3s;backdrop-filter:blur(20px);
-  }
+  .notif-dropdown{position:fixed;top:60px;left:12px;width:360px;max-width:calc(100vw - 24px);max-height:70vh;overflow-y:auto;background:var(--bg-2);border:1px solid var(--glass-border);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.6);z-index:9998;transform:translateY(-20px) scale(.95);opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(20px);}
   .notif-dropdown.show{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
-  .notif-dropdown .nd-header{
-    padding:12px 14px;border-bottom:1px solid var(--glass-border);
-    display:flex;justify-content:space-between;align-items:center;
-    position:sticky;top:0;background:var(--bg-2);z-index:2;
-  }
+  .notif-dropdown .nd-header{padding:12px 14px;border-bottom:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg-2);z-index:2;}
   .notif-dropdown .nd-title{font-weight:900;font-size:.95rem;color:var(--main-light);display:flex;align-items:center;gap:8px;}
   .notif-dropdown .nd-title svg{width:18px;height:18px;}
   .notif-dropdown .nd-clear{background:transparent;border:1px solid var(--glass-border);color:var(--text-dim);padding:5px 10px;border-radius:8px;cursor:pointer;font-size:.72rem;font-family:'Cairo',sans-serif;font-weight:700;}
@@ -560,7 +511,8 @@ const firebaseConfig = {
   messagingSenderId: "236494459097",
   appId: "1:236494459097:web:92184d85361c606e27aec8"
 };
-const VAPID_KEY = "BBg5AaJjoU6YCMzrGAEmZIkzAOuOfITgnYG3r4tPKEFRsREZGscV7u39T_tQzIpB1gp6susQGhWnQerWJ5WIK_A";
+
+const VAPID_KEY_VALUE = "BBg5AaJjoU6YCMzrGAEmZIkzAOuOfITgnYG3r4tPKEFRsREZGscV7u39T_tQzIpB1gp6susQGhWnQerWJ5WIK_A";
 
 const fbApp = initializeApp(firebaseConfig);
 const fbDb = getFirestore(fbApp);
@@ -575,7 +527,8 @@ window.FB = {
   onMessage: onMessage,
   setDoc: setDoc,
   doc: doc,
-  serverTimestamp: serverTimestamp
+  serverTimestamp: serverTimestamp,
+  VAPID_KEY: VAPID_KEY_VALUE
 };
 window.dispatchEvent(new Event('fb-ready'));
 </script>
@@ -1290,6 +1243,9 @@ function addLocalNotif({title, body, image, url}){
   toast(title + ' - ' + body);
 }
 
+/* ============================================================
+   Firebase Messaging
+============================================================ */
 async function initFirebaseMessaging(){
   window.addEventListener('fb-ready', async ()=>{
     const FB = window.FB;
@@ -1305,7 +1261,7 @@ async function initFirebaseMessaging(){
 
     if(Notification.permission === 'granted'){
       try{
-        const token = await FB.getToken(FB.messaging, { vapidKey: VAPID_KEY });
+        const token = await FB.getToken(FB.messaging, { vapidKey: FB.VAPID_KEY });
         if(token){
           await FB.setDoc(FB.doc(FB.db, 'fcm_tokens', token), {
             token, userAgent: navigator.userAgent,
@@ -1334,13 +1290,13 @@ async function requestNotifPermission(){
       }
 
       try{
-        const token = await FB.getToken(FB.messaging, { vapidKey: VAPID_KEY });
+        const token = await FB.getToken(FB.messaging, { vapidKey: FB.VAPID_KEY });
         if(token){
           await FB.setDoc(FB.doc(FB.db, 'fcm_tokens', token), {
             token, userAgent: navigator.userAgent,
             registeredAt: FB.serverTimestamp(), lastSeen: FB.serverTimestamp()
           }, { merge: true });
-          toast('تم تسجيل جهازك ✅', 'success');
+          toast('✅ تم تسجيل جهازك', 'success');
           console.log('Device registered:', token);
         } else {
           toast('فشل جلب التوكن','error');

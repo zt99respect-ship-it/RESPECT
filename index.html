@@ -502,6 +502,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
 import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const SW_PATH = '/RESPECT/firebase-messaging-sw.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCxX6kwjy2U4uyTZbBnZuhfjLNqSkCXrk4",
@@ -528,7 +529,8 @@ window.FB = {
   setDoc: setDoc,
   doc: doc,
   serverTimestamp: serverTimestamp,
-  VAPID_KEY: VAPID_KEY_VALUE
+  VAPID_KEY: VAPID_KEY_VALUE,
+  SW_PATH: SW_PATH
 };
 window.dispatchEvent(new Event('fb-ready'));
 </script>
@@ -1251,6 +1253,14 @@ async function initFirebaseMessaging(){
     const FB = window.FB;
     if(!FB || !FB.messaging){ console.warn('Messaging not available'); return; }
 
+    let swRegistration = null;
+    try{
+      swRegistration = await navigator.serviceWorker.register(FB.SW_PATH, { scope: '/RESPECT/' });
+      console.log('SW registered:', swRegistration);
+    }catch(e){
+      console.warn('SW registration failed:', e);
+    }
+
     FB.onMessage(FB.messaging, (payload)=>{
       const title = payload.notification?.title || payload.data?.title || 'ساحة ريسبكت';
       const body = payload.notification?.body || payload.data?.body || '';
@@ -1261,7 +1271,10 @@ async function initFirebaseMessaging(){
 
     if(Notification.permission === 'granted'){
       try{
-        const token = await FB.getToken(FB.messaging, { vapidKey: FB.VAPID_KEY });
+        const token = await FB.getToken(FB.messaging, {
+          vapidKey: FB.VAPID_KEY,
+          serviceWorkerRegistration: swRegistration
+        });
         if(token){
           await FB.setDoc(FB.doc(FB.db, 'fcm_tokens', token), {
             token, userAgent: navigator.userAgent,
@@ -1290,7 +1303,17 @@ async function requestNotifPermission(){
       }
 
       try{
-        const token = await FB.getToken(FB.messaging, { vapidKey: FB.VAPID_KEY });
+        let swRegistration = await navigator.serviceWorker.getRegistration('/RESPECT/');
+        if(!swRegistration){
+          swRegistration = await navigator.serviceWorker.register(FB.SW_PATH, { scope: '/RESPECT/' });
+          await new Promise(r => setTimeout(r, 1000));
+        }
+
+        const token = await FB.getToken(FB.messaging, {
+          vapidKey: FB.VAPID_KEY,
+          serviceWorkerRegistration: swRegistration
+        });
+
         if(token){
           await FB.setDoc(FB.doc(FB.db, 'fcm_tokens', token), {
             token, userAgent: navigator.userAgent,
@@ -1378,4 +1401,4 @@ console.log('ساحة ريسبكت جاهزة ✅');
 </script>
 
 </body>
-</html>
+  </html>

@@ -1446,19 +1446,31 @@ async function initFirebaseMessaging(){
 async function requestNotifPermission(){
   try{
     const permission = await Notification.requestPermission();
+    alert('1. Permission: ' + permission);
     if(permission === 'granted'){
       toast('تم تفعيل الإشعارات ✅', 'success');
       localStorage.removeItem(NOTIF_DENIED_KEY);
       localStorage.removeItem(NOTIF_REMIND_KEY);
       closeNotifModal();
       const { messaging, db } = window.FB;
+      alert('2. Messaging: ' + (messaging ? 'موجود' : 'غير موجود'));
       if(messaging){
-        const token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        if(token){
-          await setDoc(doc(db, 'fcm_tokens', token), {
-            token, userAgent: navigator.userAgent,
-            registeredAt: serverTimestamp(), lastSeen: serverTimestamp()
-          }, { merge: true });
+        try {
+          const token = await getToken(messaging, { vapidKey: VAPID_KEY });
+          alert('3. Token: ' + (token ? token.substring(0, 20) + '...' : 'فاضي'));
+          if(token){
+            try {
+              await setDoc(doc(db, 'fcm_tokens', token), {
+                token, userAgent: navigator.userAgent,
+                registeredAt: serverTimestamp(), lastSeen: serverTimestamp()
+              }, { merge: true });
+              alert('4. ✅ تم الحفظ في Firestore');
+            } catch(err){
+              alert('4. ❌ خطأ Firestore: ' + err.message);
+            }
+          }
+        } catch(err){
+          alert('3. ❌ خطأ getToken: ' + err.message);
         }
       }
       updateBellActive(true);
@@ -1468,8 +1480,7 @@ async function requestNotifPermission(){
       closeNotifModal();
     }
   }catch(e){
-    console.error(e);
-    toast('خطأ في التفعيل','error');
+    alert('❌ خطأ عام: ' + e.message);
     closeNotifModal();
   }
 }

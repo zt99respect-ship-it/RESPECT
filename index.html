@@ -18,7 +18,7 @@
   :root{
     --danger:#ef4444;--success:#22c55e;--warning:#f59e0b;
   }
-  *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo','Segoe UI',Tahoma,sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;}
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;font-weight:700;}
 
@@ -39,7 +39,6 @@
   }
   @keyframes bgMove{0%{transform:scale(1) rotate(0);}100%{transform:scale(1.15) rotate(4deg);}}
 
-  /* ========== Navbar ========== */
   nav#mainNav{
     position:sticky;top:0;z-index:100;
     display:flex;align-items:center;justify-content:space-between;
@@ -55,10 +54,7 @@
     cursor:pointer;white-space:nowrap;flex-shrink:0;
   }
   nav#mainNav .logo svg{width:20px;height:20px;color:var(--main);}
-  nav#mainNav .main-tabs{
-    display:flex;gap:4px;align-items:center;overflow-x:auto;flex:1;
-    scrollbar-width:none;
-  }
+  nav#mainNav .main-tabs{display:flex;gap:4px;align-items:center;overflow-x:auto;flex:1;scrollbar-width:none;}
   nav#mainNav .main-tabs::-webkit-scrollbar{display:none;}
   nav#mainNav .main-tabs > button{
     display:flex;align-items:center;gap:5px;
@@ -68,31 +64,19 @@
     transition:.25s;white-space:nowrap;flex-shrink:0;
   }
   nav#mainNav .main-tabs > button svg{width:14px;height:14px;}
-  nav#mainNav .main-tabs > button:hover{
-    background:var(--glass);border-color:var(--main);
-    box-shadow:0 0 12px var(--main-glow);
-  }
-  nav#mainNav .main-tabs > button.icon-only{
-    width:34px;height:34px;padding:0;justify-content:center;border-radius:50%;
-  }
+  nav#mainNav .main-tabs > button:hover{background:var(--glass);border-color:var(--main);}
+  nav#mainNav .main-tabs > button.icon-only{width:34px;height:34px;padding:0;justify-content:center;border-radius:50%;}
   nav#mainNav .main-tabs > button.icon-only svg{width:16px;height:16px;}
 
-  /* زر الإشعارات */
   .notif-btn-wrap{
     position:relative;display:flex;align-items:center;gap:4px;
-    padding:6px 10px;border-radius:10px;cursor:pointer;
-    transition:.25s;flex-shrink:0;
+    padding:6px 10px;border-radius:10px;cursor:pointer;transition:.25s;flex-shrink:0;
   }
-  .notif-btn-wrap:hover{background:var(--glass);border-color:var(--main);}
+  .notif-btn-wrap:hover{background:var(--glass);}
   .notif-btn-wrap .bell-icon{width:20px;height:20px;color:var(--main-light);transition:.3s;}
   .notif-btn-wrap.active .bell-icon{color:var(--main);}
   .notif-btn-wrap.has-new .bell-icon{animation:bellShake 1.2s infinite;color:var(--warning);}
-  @keyframes bellShake{
-    0%,100%{transform:rotate(0);}
-    10%{transform:rotate(-15deg);}
-    20%{transform:rotate(15deg);}
-    50%{transform:rotate(0);}
-  }
+  @keyframes bellShake{0%,100%{transform:rotate(0);}10%{transform:rotate(-15deg);}20%{transform:rotate(15deg);}50%{transform:rotate(0);}}
   .notif-btn-wrap .bell-label{font-size:.72rem;font-weight:800;color:var(--main-light);}
   .notif-btn-wrap .notif-count{
     position:absolute;top:-2px;right:0;background:var(--danger);color:#fff;
@@ -100,7 +84,6 @@
     border-radius:8px;display:flex;align-items:center;justify-content:center;
   }
 
-  /* قائمة الإشعارات */
   .notif-dropdown{
     position:fixed;top:60px;left:12px;width:360px;max-width:calc(100vw - 24px);
     max-height:70vh;overflow-y:auto;background:var(--bg-2);
@@ -115,23 +98,13 @@
     display:flex;justify-content:space-between;align-items:center;
     position:sticky;top:0;background:var(--bg-2);z-index:2;
   }
-  .notif-dropdown .nd-title{
-    font-weight:900;font-size:.95rem;color:var(--main-light);
-    display:flex;align-items:center;gap:8px;
-  }
+  .notif-dropdown .nd-title{font-weight:900;font-size:.95rem;color:var(--main-light);display:flex;align-items:center;gap:8px;}
   .notif-dropdown .nd-title svg{width:18px;height:18px;}
-  .notif-dropdown .nd-clear{
-    background:transparent;border:1px solid var(--glass-border);
-    color:var(--text-dim);padding:5px 10px;border-radius:8px;
-    cursor:pointer;font-size:.72rem;font-family:'Cairo',sans-serif;font-weight:700;
-  }
+  .notif-dropdown .nd-clear{background:transparent;border:1px solid var(--glass-border);color:var(--text-dim);padding:5px 10px;border-radius:8px;cursor:pointer;font-size:.72rem;font-family:'Cairo',sans-serif;font-weight:700;}
   .notif-dropdown .nd-clear:hover{color:var(--danger);border-color:var(--danger);}
   .notif-dropdown .nd-body{padding:8px;}
   .notif-dropdown .nd-empty{text-align:center;padding:40px 20px;color:var(--text-dim);font-size:.85rem;}
-  .notif-card{
-    padding:12px 14px;border-radius:12px;background:var(--glass);
-    border:1px solid var(--glass-border);margin-bottom:8px;transition:.3s;
-  }
+  .notif-card{padding:12px 14px;border-radius:12px;background:var(--glass);border:1px solid var(--glass-border);margin-bottom:8px;transition:.3s;}
   .notif-card.unread{border-right:3px solid var(--main);background:rgba(139,92,246,.12);}
   .notif-card .nc-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:6px;}
   .notif-card .nc-title{font-weight:900;font-size:.88rem;color:var(--main-light);display:flex;align-items:center;gap:6px;}
@@ -140,37 +113,14 @@
   .notif-card .nc-body{font-size:.82rem;line-height:1.5;margin-bottom:6px;word-break:break-word;}
   .notif-card .nc-img{width:100%;border-radius:8px;margin-top:6px;max-height:200px;object-fit:cover;}
 
-  /* نافذة الإشعارات */
-  .notif-modal{
-    position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.75);
-    backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px;
-  }
+  .notif-modal{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px;}
   .notif-modal.show{display:flex;}
-  .notif-modal-box{
-    background:var(--bg-2);border:1px solid var(--glass-border);border-radius:24px;
-    padding:26px 22px;max-width:420px;width:100%;text-align:center;
-  }
-  .notif-modal-icon{
-    width:90px;height:90px;margin:0 auto 14px;border-radius:50%;
-    background:linear-gradient(135deg,var(--main),var(--main-dark));
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 0 40px var(--main-glow);animation:bellFloat 2.5s ease-in-out infinite;
-  }
-  @keyframes bellFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  .notif-modal-box{background:var(--bg-2);border:1px solid var(--glass-border);border-radius:24px;padding:26px 22px;max-width:420px;width:100%;text-align:center;}
+  .notif-modal-icon{width:90px;height:90px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(135deg,var(--main),var(--main-dark));display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px var(--main-glow);}
   .notif-modal-icon svg{width:45px;height:45px;color:#fff;}
-  .notif-modal-title{
-    font-size:1.3rem;font-weight:900;
-    background:linear-gradient(90deg,var(--main),var(--main-light));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    margin-bottom:8px;
-  }
+  .notif-modal-title{font-size:1.3rem;font-weight:900;background:linear-gradient(90deg,var(--main),var(--main-light));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:8px;}
   .notif-modal-desc{font-size:.85rem;color:var(--text-dim);line-height:1.6;margin-bottom:20px;}
-  .notif-choice{
-    width:100%;padding:13px 16px;border-radius:14px;border:none;cursor:pointer;
-    font-family:'Cairo',sans-serif;font-weight:900;font-size:.92rem;
-    display:flex;align-items:center;justify-content:center;gap:10px;
-    margin-bottom:10px;transition:.3s;
-  }
+  .notif-choice{width:100%;padding:13px 16px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo',sans-serif;font-weight:900;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;transition:.3s;}
   .notif-choice svg{width:18px;height:18px;}
   .notif-choice.allow{background:linear-gradient(135deg,var(--main),var(--main-dark));color:#fff;box-shadow:0 8px 24px var(--main-glow);}
   .notif-choice.allow:hover{transform:translateY(-3px);}
@@ -179,57 +129,28 @@
   .notif-choice.deny{background:transparent;border:1px solid var(--glass-border);color:var(--text-dim);font-size:.82rem;}
   .notif-choice.deny:hover{color:var(--danger);border-color:var(--danger);}
 
-  /* Toast */
   .toast-area{position:fixed;top:20px;left:20px;z-index:99999;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
-  .toast{
-    background:var(--main);color:#fff;padding:12px 18px;border-radius:12px;
-    box-shadow:0 8px 28px rgba(0,0,0,.5);font-size:.88rem;font-weight:800;
-    max-width:300px;animation:toastIn .3s ease,toastOut .3s ease 4s forwards;
-    pointer-events:all;display:flex;align-items:center;gap:10px;
-  }
+  .toast{background:var(--main);color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.5);font-size:.88rem;font-weight:800;max-width:300px;animation:toastIn .3s ease,toastOut .3s ease 4s forwards;pointer-events:all;display:flex;align-items:center;gap:10px;}
   .toast svg{width:18px;height:18px;flex-shrink:0;}
   @keyframes toastIn{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
   @keyframes toastOut{to{opacity:0;transform:translateX(-40px);}}
 
-  /* Header */
   header{text-align:center;padding:24px 20px 10px;}
-  header h1{
-    font-size:2.4rem;font-weight:900;
-    background:linear-gradient(90deg,var(--main),var(--main-light),var(--main));
-    background-size:200% auto;
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:shine 4s linear infinite;line-height:1.3;
-  }
+  header h1{font-size:2.4rem;font-weight:900;background:linear-gradient(90deg,var(--main),var(--main-light),var(--main));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite;line-height:1.3;}
   @keyframes shine{to{background-position:200% center;}}
   header p{margin-top:6px;letter-spacing:10px;color:var(--main-light);font-weight:900;font-size:.85rem;}
   .divider{max-width:180px;height:2px;margin:12px auto;background:linear-gradient(90deg,transparent,var(--main),transparent);}
 
-  /* Search */
   .search-box{max-width:680px;margin:14px auto;padding:0 16px;display:flex;gap:8px;position:relative;}
-  .search-box input{
-    flex:1;padding:12px 15px;border-radius:12px;border:1px solid var(--glass-border);
-    background:var(--glass);color:var(--text);font-size:.92rem;outline:none;
-    font-family:'Cairo',sans-serif;font-weight:700;min-width:0;
-  }
-  .search-box input:focus{border-color:var(--main);box-shadow:0 0 25px var(--main-glow);}
-  .search-box button{
-    display:flex;align-items:center;gap:6px;padding:12px 18px;
-    border:none;border-radius:12px;
-    background:linear-gradient(135deg,var(--main),var(--main-dark));
-    color:#fff;font-weight:800;cursor:pointer;font-size:.85rem;
-    white-space:nowrap;flex-shrink:0;
-  }
+  .search-box input{flex:1;padding:12px 15px;border-radius:12px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-size:.92rem;outline:none;font-family:'Cairo',sans-serif;font-weight:700;min-width:0;}
+  .search-box input:focus{border-color:var(--main);}
+  .search-box button{display:flex;align-items:center;gap:6px;padding:12px 18px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--main),var(--main-dark));color:#fff;font-weight:800;cursor:pointer;font-size:.85rem;white-space:nowrap;flex-shrink:0;font-family:'Cairo',sans-serif;}
   .search-box button svg{width:16px;height:16px;}
-  .suggestions{
-    position:absolute;top:100%;left:16px;right:16px;margin-top:6px;
-    background:var(--bg-2);border:1px solid var(--glass-border);border-radius:12px;
-    max-height:280px;overflow-y:auto;z-index:200;display:none;
-  }
+  .suggestions{position:absolute;top:100%;left:16px;right:16px;margin-top:6px;background:var(--bg-2);border:1px solid var(--glass-border);border-radius:12px;max-height:280px;overflow-y:auto;z-index:200;display:none;}
   .suggestions.show{display:block;}
-  .suggestion-item{padding:10px 14px;cursor:pointer;font-size:.88rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--glass-border);}
+  .suggestion-item{padding:10px 14px;cursor:pointer;font-size:.88rem;border-bottom:1px solid var(--glass-border);}
   .suggestion-item:hover{background:var(--glass);}
 
-  /* Sections */
   .section{max-width:1200px;margin:20px auto;padding:0 16px;}
   .section h2{font-size:1.05rem;margin-bottom:10px;font-weight:900;display:flex;align-items:center;gap:8px;}
   .section h2 svg{width:18px;height:18px;color:var(--main);}
@@ -237,12 +158,7 @@
   .scroll-row::-webkit-scrollbar{height:5px;}
   .scroll-row::-webkit-scrollbar-thumb{background:var(--main-dark);border-radius:6px;}
 
-  .channel-card{
-    min-width:150px;max-width:150px;background:var(--glass);
-    border:1px solid var(--glass-border);border-radius:14px;padding:12px 10px;
-    cursor:pointer;transition:.35s;text-align:center;position:relative;
-    overflow:hidden;flex-shrink:0;
-  }
+  .channel-card{min-width:150px;max-width:150px;background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;padding:12px 10px;cursor:pointer;transition:.35s;text-align:center;position:relative;overflow:hidden;flex-shrink:0;}
   .channel-card:hover{transform:translateY(-6px) scale(1.04);border-color:var(--main);}
   .channel-card .avatar-wrap{position:relative;display:inline-block;margin-bottom:6px;}
   .channel-card img{width:52px;height:52px;border-radius:50%;object-fit:cover;background:#2a1a4a;border:2px solid var(--main-dark);}
@@ -252,68 +168,40 @@
   .channel-card .viewers{font-size:.72rem;color:var(--main-light);margin-top:4px;display:flex;align-items:center;justify-content:center;gap:3px;}
   .channel-card .viewers svg{width:12px;height:12px;}
   .channel-card .offline-badge{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.6);color:#aaa;padding:2px 6px;border-radius:6px;font-size:.6rem;font-weight:800;}
-  .skeleton{
-    min-width:150px;max-width:150px;height:120px;
-    background:linear-gradient(90deg,var(--glass) 0%,var(--glass-border) 50%,var(--glass) 100%);
-    background-size:200% 100%;animation:skeletonShine 1.5s infinite;border-radius:14px;flex-shrink:0;
-  }
+  .skeleton{min-width:150px;max-width:150px;height:120px;background:linear-gradient(90deg,var(--glass) 0%,var(--glass-border) 50%,var(--glass) 100%);background-size:200% 100%;animation:skeletonShine 1.5s infinite;border-radius:14px;flex-shrink:0;}
   @keyframes skeletonShine{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
-  .fav-btn{
-    display:inline-flex;align-items:center;gap:6px;background:var(--glass);
-    border:1px solid var(--glass-border);color:var(--text);
-    padding:8px 12px;border-radius:10px;cursor:pointer;
-    font-size:.82rem;font-family:'Cairo',sans-serif;font-weight:700;flex-shrink:0;
-  }
+  .fav-btn{display:inline-flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--glass-border);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer;font-size:.82rem;font-family:'Cairo',sans-serif;font-weight:700;flex-shrink:0;}
   .fav-btn svg{width:13px;height:13px;color:var(--main);}
   .fav-btn .x{color:var(--danger);font-weight:900;padding:0 3px;}
   .fav-actions{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-  .fav-actions button{
-    display:flex;align-items:center;gap:5px;background:var(--glass);
-    border:1px solid var(--glass-border);color:var(--text);
-    padding:7px 12px;border-radius:10px;cursor:pointer;
-    font-size:.78rem;font-weight:700;font-family:'Cairo',sans-serif;
-  }
+  .fav-actions button{display:flex;align-items:center;gap:5px;background:var(--glass);border:1px solid var(--glass-border);color:var(--text);padding:7px 12px;border-radius:10px;cursor:pointer;font-size:.78rem;font-weight:700;font-family:'Cairo',sans-serif;}
   .fav-actions button svg{width:12px;height:12px;}
 
-  /* Player */
   .player-container{max-width:1300px;margin:16px auto 50px;padding:0 16px;}
   .chat-layout{display:grid;grid-template-columns:1fr 340px;gap:14px;align-items:start;}
   @media(max-width:1000px){.chat-layout{grid-template-columns:1fr;}}
-
-  .video-wrapper{
-    position:relative;background:#000;border-radius:16px;overflow:hidden;
-    border:1px solid var(--glass-border);
-    box-shadow:0 0 40px var(--main-glow);aspect-ratio:16/9;
-  }
+  .video-wrapper{position:relative;background:#000;border-radius:16px;overflow:hidden;border:1px solid var(--glass-border);aspect-ratio:16/9;}
   #player{width:100%;height:100%;background:#000;display:block;}
   .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--main-light);text-align:center;padding:20px;}
   .placeholder svg{width:60px;height:60px;color:var(--main);}
   .live-overlay{position:absolute;top:10px;left:10px;z-index:10;display:flex;gap:6px;opacity:0;transition:opacity .3s;}
   .video-wrapper:hover .live-overlay,.video-wrapper.playing .live-overlay{opacity:1;}
-  .live-overlay .badge{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);padding:5px 10px;border-radius:16px;color:#fff;font-size:.72rem;font-weight:800;}
+  .live-overlay .badge{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.7);padding:5px 10px;border-radius:16px;color:#fff;font-size:.72rem;font-weight:800;}
   .live-overlay .badge.live{background:rgba(239,68,68,.9);}
   .live-overlay .badge svg{width:12px;height:12px;}
   .live-overlay .badge::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;}
-
   .stats-bar{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding:10px 12px;background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;font-size:.78rem;}
   .stats-bar .stat{display:flex;align-items:center;gap:6px;padding:4px 10px;background:var(--glass);border-radius:8px;}
   .stats-bar .stat svg{width:14px;height:14px;color:var(--main-light);}
   .stats-bar .stat b{font-weight:800;font-size:.82rem;}
-
   .controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center;}
-  .controls select,.controls button{
-    display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:11px;
-    border:1px solid var(--glass-border);background:var(--glass);color:var(--text);
-    cursor:pointer;font-size:.82rem;font-weight:800;font-family:'Cairo',sans-serif;transition:.25s;
-  }
+  .controls select,.controls button{display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:11px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text);cursor:pointer;font-size:.82rem;font-weight:800;font-family:'Cairo',sans-serif;transition:.25s;}
   .controls svg{width:14px;height:14px;}
-  .controls button:hover,.controls select:hover{border-color:var(--main);box-shadow:0 0 18px var(--main-glow);transform:translateY(-2px);}
+  .controls button:hover,.controls select:hover{border-color:var(--main);}
   .controls button.active{background:var(--main);border-color:var(--main);color:#fff;}
-
   .live-badge{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:linear-gradient(135deg,var(--danger),#b91c1c);color:#fff;border-radius:16px;font-size:.75rem;font-weight:900;}
   .live-badge::before{content:'';width:7px;height:7px;background:#fff;border-radius:50%;}
-
   .chat-sidebar{background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;height:calc(100vh - 120px);max-height:650px;position:sticky;top:80px;}
   .chat-sidebar.hidden{display:none;}
   .chat-header{padding:10px 14px;background:var(--glass);border-bottom:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:.85rem;}
@@ -321,30 +209,24 @@
   .chat-header .title svg{width:16px;height:16px;}
   .chat-header button{background:transparent;border:1px solid var(--glass-border);color:var(--text);padding:4px 9px;border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif;font-weight:700;font-size:.75rem;}
   .chat-iframe{flex:1;border:none;background:#0a0414;width:100%;min-height:400px;}
-
   footer{text-align:center;padding:24px 16px;color:var(--text-dim);font-size:.8rem;border-top:1px solid var(--glass-border);margin-top:40px;}
   .footer-content{display:flex;flex-direction:column;align-items:center;gap:10px;}
   .developer-info{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:12px;background:var(--glass);border:1px solid var(--glass-border);font-size:.82rem;font-weight:800;}
   .dev-link{display:inline-flex;align-items:center;gap:5px;color:var(--main-light);text-decoration:none;font-weight:900;}
   .dev-link svg{width:14px;height:14px;}
-
   @media(max-width:700px){
     header h1{font-size:1.9rem;}
-    header p{letter-spacing:6px;font-size:.78rem;}
     nav#mainNav{padding:8px 10px;gap:6px;}
     nav#mainNav .logo{font-size:.88rem;}
-    nav#mainNav .logo svg{width:18px;height:18px;}
     nav#mainNav .main-tabs > button{padding:6px 9px;font-size:.7rem;}
     nav#mainNav .main-tabs > button svg{width:12px;height:12px;}
-    nav#mainNav .main-tabs > button.icon-only{width:30px;height:30px;}
     .notif-btn-wrap{padding:5px 7px;}
     .notif-btn-wrap .bell-icon{width:16px;height:16px;}
     .notif-btn-wrap .bell-label{font-size:.62rem;}
     .search-box input{padding:11px 13px;font-size:.85rem;}
     .search-box button{padding:11px 14px;font-size:.75rem;}
     .section{padding:0 12px;}
-    .section h2{font-size:.95rem;}
-    .channel-card{min-width:135px;max-width:135px;padding:10px 8px;}
+    .channel-card{min-width:135px;max-width:135px;}
     .channel-card img{width:46px;height:46px;}
     .controls select,.controls button{padding:8px 12px;font-size:.76rem;}
     .notif-dropdown{left:8px;right:8px;width:auto;top:56px;}
@@ -410,7 +292,7 @@
   <div class="suggestions" id="suggestions"></div>
 </div>
 
-<!-- ==================== Live Channels (يجمع الكل) ==================== -->
+<!-- ==================== Live Channels ==================== -->
 <div class="section" id="liveSection">
   <h2>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
@@ -419,7 +301,7 @@
   <div class="scroll-row" id="liveRow"></div>
 </div>
 
-<!-- ==================== Respect Creators ==================== -->
+<!-- ==================== Creators ==================== -->
 <div class="section" id="creatorsSection">
   <h2>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -706,14 +588,12 @@ const PROXY = 'https://saha-proxy.zt-99-respect.workers.dev';
 function proxied(path){ return `${PROXY}?path=${encodeURIComponent(path)}`; }
 function streamProxy(u){ return `${PROXY}?url=${encodeURIComponent(u)}`; }
 
-/* قائمة قنوات مباشرة */
 const FEATURED = [
   'DRB7H','S5B','PEERLESS','HOOK','FHLWY','F1AISAL','ID7O',
   'Musab','Abu8aly','Rayan','Imonky_d','Okb','wolf','AnwarBMA',
   'w1pey','islf','ko3ib'
 ];
 
-/* قائمة صنّاع المحتوى */
 const CREATORS = [
   'Al_Hashidi','ALPHAA27','ALRND','bobshayb','Drb7h','F1aisal','Fhlwy',
   'Graficsaw','Hook','iC4C','ID7O','iiMaD','iMonkey_D','iSLF','lHAJAR',
@@ -722,10 +602,8 @@ const CREATORS = [
   'TAF86','Vilwo','w1pey','Waakd','wef0','wolf','xKnDrx','ZOO6K'
 ];
 
-/* كل القنوات (بدون تكرار) */
 const ALL_CHANNELS = [...new Set([...FEATURED, ...CREATORS])];
 
-/* Avatar افتراضي آمن */
 const SAFE_AVATAR = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCBmaWxsPSIjNmQyOGQ5IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIvPjx0ZXh0IHg9IjUwIiB5PSI2OCIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iNTIiIGZvbnQtd2VpZ2h0PSI5MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCI+PzwvdGV4dD48L3N2Zz4=";
 
 /* ============================================================
@@ -747,6 +625,10 @@ function toast(msg, type){
 function escapeHtml(s){
   return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 }
+function scrollToSection(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
 function timeAgo(ts){
   if(!ts) return 'الآن';
   const d = ts.toDate ? ts.toDate() : new Date(ts);
@@ -755,10 +637,6 @@ function timeAgo(ts){
   if(diff < 3600) return Math.floor(diff/60) + 'د';
   if(diff < 86400) return Math.floor(diff/3600) + 'س';
   return Math.floor(diff/86400) + 'ي';
-}
-function scrollToSection(id){
-  const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 /* ============================================================
@@ -880,9 +758,9 @@ function pickSuggestion(ch){
 }
 
 /* ============================================================
-   Channel Fetching (with cache)
+   Channel Fetch with Cache
 ============================================================ */
-const CACHE_TTL = 60 * 1000; // 60 ثانية
+const CACHE_TTL = 60 * 1000;
 const channelCache = {};
 
 async function fetchChannelCached(ch){
@@ -943,25 +821,20 @@ function openChannel(slug){
 }
 
 /* ============================================================
-   Sections Loaders
+   Section Loaders
 ============================================================ */
-
-/* 1) قنوات مباشرة الآن — تعرض المباشرين فقط من كل القنوات */
 async function loadLiveChannels(){
   const row = document.getElementById('liveRow');
   row.innerHTML = '';
   for(let i=0;i<5;i++){
     const s = document.createElement('div'); s.className='skeleton'; row.appendChild(s);
   }
-
   const results = await Promise.all(ALL_CHANNELS.map(async ch => {
     const data = await fetchChannelCached(ch);
     return getChannelInfo(data, ch);
   }));
-
   const live = results.filter(r=>r.live);
   row.innerHTML = '';
-
   if(live.length === 0){
     row.innerHTML = '<div style="color:var(--main-light);font-size:.85rem;">لا يوجد بث مباشر حالياً</div>';
     return;
@@ -970,7 +843,6 @@ async function loadLiveChannels(){
   live.forEach((r,i)=> row.appendChild(createCard(r, i, openChannel)));
 }
 
-/* 2) صنّاع محتوى ريسبكت — كل المبدعين (Live أولاً، ثم Offline) */
 async function loadCreators(){
   const row = document.getElementById('creatorsRow');
   if(!row) return;
@@ -978,40 +850,32 @@ async function loadCreators(){
   for(let i=0;i<6;i++){
     const s = document.createElement('div'); s.className='skeleton'; row.appendChild(s);
   }
-
   const results = await Promise.all(CREATORS.map(async ch => {
     const data = await fetchChannelCached(ch);
     return getChannelInfo(data, ch);
   }));
-
-  // Live أولاً (حسب المشاهدين)، ثم Offline (أبجدي)
   results.sort((a,b) => {
     if(a.live && !b.live) return -1;
     if(!a.live && b.live) return 1;
     if(a.live && b.live) return b.viewers - a.viewers;
     return a.slug.localeCompare(b.slug);
   });
-
   row.innerHTML = '';
   results.forEach((r,i)=> row.appendChild(createCard(r, i, openChannel)));
 }
 
-/* 3) الأكثر مشاهدة — Top 10 من المباشرين */
 async function loadTopStreamers(){
   const row = document.getElementById('topRow');
   row.innerHTML = '';
   for(let i=0;i<5;i++){
     const s = document.createElement('div'); s.className='skeleton'; row.appendChild(s);
   }
-
   const results = await Promise.all(ALL_CHANNELS.map(async ch => {
     const data = await fetchChannelCached(ch);
     return getChannelInfo(data, ch);
   }));
-
   const top = results.filter(r=>r.live).sort((a,b)=>b.viewers-a.viewers).slice(0,10);
   row.innerHTML = '';
-
   if(top.length === 0){
     row.innerHTML = '<div style="color:var(--main-light);font-size:.85rem;">لا يوجد بيانات</div>';
     return;
@@ -1019,13 +883,19 @@ async function loadTopStreamers(){
   top.forEach((r,i)=> row.appendChild(createCard(r, i, openChannel)));
 }
 
-/* تشغيل كل الأقسام */
+let refreshRunning = false;
 async function refreshAllSections(){
-  await Promise.all([
-    loadLiveChannels(),
-    loadCreators(),
-    loadTopStreamers()
-  ]);
+  if(refreshRunning) return;
+  refreshRunning = true;
+  try{
+    await loadCreators();
+    await new Promise(r => setTimeout(r, 500));
+    await loadLiveChannels();
+    await new Promise(r => setTimeout(r, 500));
+    await loadTopStreamers();
+  } finally {
+    refreshRunning = false;
+  }
 }
 
 /* ============================================================
@@ -1200,7 +1070,6 @@ function stopStream(){
   document.getElementById('chatContainer').innerHTML = '<div style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--main-light);font-size:.85rem;">اختر قناة لعرض الشات</div>';
 }
 
-/* Fullscreen */
 function toggleFullscreen(){
   const player = document.getElementById('player');
   const nav = document.getElementById('mainNav');
@@ -1226,7 +1095,6 @@ document.addEventListener('fullscreenchange', ()=>{
   }
 });
 
-/* Recording */
 function getStream(){
   const p = document.getElementById('player');
   if(p.captureStream) return p.captureStream();
@@ -1235,7 +1103,6 @@ function getStream(){
 }
 function toggleRecord(){
   if(!currentChannel){ toast('افتح بث أولاً','error'); return; }
-  const btn = document.getElementById('recBtn');
   if(!isRecording){
     const stream = getStream();
     if(!stream){ toast('التسجيل غير مدعوم','error'); return; }
@@ -1296,7 +1163,6 @@ function showRecResult(url, filename, msg){
   toast(msg);
 }
 
-/* Kick Chat */
 function toggleChatSidebar(){
   const sidebar = document.getElementById('chatSidebar');
   chatSidebarVisible = !chatSidebarVisible;
@@ -1426,10 +1292,10 @@ function addLocalNotif({title, body, image, url}){
 
 async function initFirebaseMessaging(){
   window.addEventListener('fb-ready', async ()=>{
-    const { messaging, db } = window.FB;
-    if(!messaging){ console.warn('Messaging not available'); return; }
+    const FB = window.FB;
+    if(!FB || !FB.messaging){ console.warn('Messaging not available'); return; }
 
-    onMessage(messaging, (payload)=>{
+    FB.onMessage(FB.messaging, (payload)=>{
       const title = payload.notification?.title || payload.data?.title || 'ساحة ريسبكت';
       const body = payload.notification?.body || payload.data?.body || '';
       const image = payload.notification?.image || payload.data?.image || '';
@@ -1439,15 +1305,15 @@ async function initFirebaseMessaging(){
 
     if(Notification.permission === 'granted'){
       try{
-        const token = await getToken(messaging, { vapidKey: VAPID_KEY });
+        const token = await FB.getToken(FB.messaging, { vapidKey: VAPID_KEY });
         if(token){
-          await setDoc(doc(db, 'fcm_tokens', token), {
+          await FB.setDoc(FB.doc(FB.db, 'fcm_tokens', token), {
             token, userAgent: navigator.userAgent,
-            registeredAt: serverTimestamp(), lastSeen: serverTimestamp()
+            registeredAt: FB.serverTimestamp(), lastSeen: FB.serverTimestamp()
           }, { merge: true });
-          console.log('Device registered');
+          console.log('Device registered (auto):', token);
         }
-      }catch(e){ console.warn('Token error', e); }
+      }catch(e){ console.warn('Auto token error:', e); }
     }
   });
 }
@@ -1455,33 +1321,35 @@ async function initFirebaseMessaging(){
 async function requestNotifPermission(){
   try{
     const permission = await Notification.requestPermission();
-    alert('1. Permission: ' + permission);
     if(permission === 'granted'){
       toast('تم تفعيل الإشعارات ✅', 'success');
       localStorage.removeItem(NOTIF_DENIED_KEY);
       localStorage.removeItem(NOTIF_REMIND_KEY);
       closeNotifModal();
-      const { messaging, db } = window.FB;
-      alert('2. Messaging: ' + (messaging ? 'موجود' : 'غير موجود'));
-      if(messaging){
-        try {
-          const token = await getToken(messaging, { vapidKey: VAPID_KEY });
-          alert('3. Token: ' + (token ? token.substring(0, 20) + '...' : 'فاضي'));
-          if(token){
-            try {
-              await setDoc(doc(db, 'fcm_tokens', token), {
-                token, userAgent: navigator.userAgent,
-                registeredAt: serverTimestamp(), lastSeen: serverTimestamp()
-              }, { merge: true });
-              alert('4. ✅ تم الحفظ في Firestore');
-            } catch(err){
-              alert('4. ❌ خطأ Firestore: ' + err.message);
-            }
-          }
-        } catch(err){
-          alert('3. ❌ خطأ getToken: ' + err.message);
-        }
+
+      const FB = window.FB;
+      if(!FB || !FB.messaging){
+        toast('Firebase غير جاهز','error');
+        return;
       }
+
+      try{
+        const token = await FB.getToken(FB.messaging, { vapidKey: VAPID_KEY });
+        if(token){
+          await FB.setDoc(FB.doc(FB.db, 'fcm_tokens', token), {
+            token, userAgent: navigator.userAgent,
+            registeredAt: FB.serverTimestamp(), lastSeen: FB.serverTimestamp()
+          }, { merge: true });
+          toast('تم تسجيل جهازك ✅', 'success');
+          console.log('Device registered:', token);
+        } else {
+          toast('فشل جلب التوكن','error');
+        }
+      }catch(err){
+        console.error('getToken error:', err);
+        toast('خطأ في التسجيل: ' + (err.message || ''),'error');
+      }
+
       updateBellActive(true);
     } else if(permission === 'denied'){
       toast('الإشعارات محظورة','error');
@@ -1489,7 +1357,8 @@ async function requestNotifPermission(){
       closeNotifModal();
     }
   }catch(e){
-    alert('❌ خطأ عام: ' + e.message);
+    console.error(e);
+    toast('خطأ في التفعيل','error');
     closeNotifModal();
   }
 }
@@ -1553,4 +1422,4 @@ console.log('ساحة ريسبكت جاهزة ✅');
 </script>
 
 </body>
-  </html>
+</html>

@@ -685,7 +685,16 @@ const fbDb = getFirestore(fbApp);
 let fbMessaging = null;
 try { fbMessaging = getMessaging(fbApp); } catch(e){ console.warn('Messaging:', e); }
 
-window.FB = { app: fbApp, db: fbDb, messaging: fbMessaging };
+window.FB = {
+  app: fbApp,
+  db: fbDb,
+  messaging: fbMessaging,
+  getToken: getToken,
+  onMessage: onMessage,
+  setDoc: setDoc,
+  doc: doc,
+  serverTimestamp: serverTimestamp
+};
 window.dispatchEvent(new Event('fb-ready'));
 </script>
 
